@@ -11,6 +11,7 @@
 #' sw_test (rnorm(100, 0, 1))
 #'
 sw_test <- function (x) {
+  print (sw_coef[1,4])
   return (x * x)
 
   }
