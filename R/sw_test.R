@@ -11,6 +11,6 @@
 #' sw_test (rnorm(100, 0, 1))
 #'
 sw_test <- function (x) {
-  print ("works")
+  return (x * x)
 
   }
