@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.com/chrsshn/checknormality.svg?branch=master)](https://travis-ci.com/chrsshn/checknormality)
+[![Codecov test
+coverage](https://codecov.io/gh/chrsshn/checknormality/branch/master/graph/badge.svg)](https://codecov.io/gh/chrsshn/checknormality?branch=master)
 <!-- badges: end -->
 
 The goal of checknormality is to …
