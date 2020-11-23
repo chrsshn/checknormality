@@ -4,10 +4,10 @@
 \alias{sw_test}
 \title{Shapiro-Wilk Test}
 \usage{
-sw_test(x, version = "original", alpha = 0.05)
+sw_test(vec_value, version = "original", alpha = 0.05)
 }
 \arguments{
-\item{x}{vector}
+\item{vec_value}{vector}
 
 \item{version}{character}
 
