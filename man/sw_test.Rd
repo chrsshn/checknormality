@@ -13,7 +13,7 @@ sw_test(x)
 p_value
 }
 \description{
-Test the normality of a vector using the Shapiro-Wilk test
+Test the normality of a vector using the original Shapiro-Wilk test
 }
 \examples{
 sw_test (rnorm(100, 0, 1))
