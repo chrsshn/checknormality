@@ -4,18 +4,22 @@
 \alias{sw_test}
 \title{Shapiro-Wilk Test}
 \usage{
-sw_test(x)
+sw_test(x, version = "original", alpha = 0.05)
 }
 \arguments{
 \item{x}{vector}
+
+\item{version}{character}
+
+\item{alpha}{character}
 }
 \value{
 p_value
 }
 \description{
-Test the normality of a vector using the original Shapiro-Wilk test
+Test the normality of a vector using a version of the Shapiro-Wilk test
 }
 \examples{
-sw_test (rnorm(100, 0, 1))
+sw_test (rnorm(10, 0, 1))
 
 }
