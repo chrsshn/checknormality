@@ -28,7 +28,7 @@ sw_test <- function (vec_value,
 
   #dat_coef holds values used to calculate W
   #column 'a' holds the coefficients a_i for the calculation of the W statistic
-  #the values of the coefficients comes from an internal table
+  #the values of the coefficients come from an internal table
   #the number of coefficients varies with n
   dat_coef <- as.data.frame(stats::na.omit (sw_coefs[,as.character(n)]))
   names (dat_coef) <- 'a'
@@ -53,10 +53,11 @@ sw_test <- function (vec_value,
   #W is the test statistic
   W <- (b^2)/SS
 
-  p_02 <- unlist(sw_pvals[n,2])
-  p_05 <- unlist (sw_pvals[n,3])
+  #the values of the p-values come from an internal table
+  p_lower <- unlist(sw_pvals[n,2])
+  p_upper <- unlist (sw_pvals[n,3])
 
-  p_val <- .05 - ((.03)*(p_05 - W)/(p_05 - p_02))
+  p_val <- .05 - ((.03)*(p_upper - W)/(p_upper - p_lower))
   reject_decision <- ifelse (p_val <= alpha, "yes", "no")
 
   # print ("Shapiro-Wilk Test of Normality")
