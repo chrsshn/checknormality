@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/chrsshn/checknormality.svg?branch=master)](https://travis-ci.com/chrsshn/checknormality)
 <!-- badges: end -->
 
 The goal of checknormality is to …
