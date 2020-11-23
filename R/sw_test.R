@@ -4,7 +4,7 @@
 #'
 #' @param x vector
 #'
-#' @return p_value numeric
+#' @return p_value
 #' @export
 #'
 #' @examples

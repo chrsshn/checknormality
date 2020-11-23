@@ -10,7 +10,7 @@ sw_test(x)
 \item{x}{vector}
 }
 \value{
-p_value numeric
+p_value
 }
 \description{
 Test the normality of a vector using the Shapiro-Wilk test
