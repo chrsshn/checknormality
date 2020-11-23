@@ -20,7 +20,7 @@ sw_test <- function (x,
   n = length (x)
   # n = 6
   dat_coef <- as.data.frame(stats::na.omit (sw_coefs[,as.character(n)]))
-  print (nrow(dat_coef))
+  # print (nrow(dat_coef))
   dat_coef$diff = rep (0, nrow (dat_coef))
 
 
@@ -54,6 +54,6 @@ sw_test <- function (x,
   # return (W)
 
 
-  return (x)
+  return (round (W, 5))
 
   }
