@@ -16,9 +16,16 @@ sw_test <- function (vec_value,
                      version = "original",
                      alpha = 0.05) {
 
-  #the original Shapiro-Wilk test is limited to n = 50 values
-  #need to check that x is a vector
+  acceptable_types = c("integer", "double")
+
+  #check that input is a vector
+  if (!(typeof (vec_value) %in% acceptable_types) )
+    stop ('Error: the type of data structure is not supported at this time')
+
+  #check that number of data points is <= 50 (the original Shapiro-Wilk test is limited to n = 50 values)
   n <- length (vec_value)
+  if (n > 50)
+    stop ('Error: the number of data points is not supported at this time')
 
   #dat_value holds the values of the data
   #column 'original' holds original data as given
