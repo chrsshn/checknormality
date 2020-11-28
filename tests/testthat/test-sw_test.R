@@ -29,7 +29,7 @@ test_that("sw_test is accurate for non-normal distributions", {
 
   test_using_distributions("rexp", 12, .4)
   test_using_distributions("rexp", 19, 6)
-  test_using_distributions("rexp", 50, 78)
+  test_using_distributions("rexp", 50, 1)
 
 
 })

@@ -1,9 +1,8 @@
 #' Shapiro-Wilk Test
 #'
-#' Test the normality of a vector using a version of the Shapiro-Wilk test
+#' Test the normality of a vector using either the original or modified (Royston) version of the Shapiro-Wilk test
 #'
 #' @param vec_value vector
-#' @param version character
 #' @param alpha character
 #'
 #' @return p_value
@@ -12,20 +11,18 @@
 #' @examples
 #' sw_test (rnorm(10, 0, 1))
 #'
-sw_test <- function (vec_value,
-                     version = "original",
-                     alpha = 0.05) {
-
-  acceptable_types = c("integer", "double")
+sw_test <- function (vec_value, alpha = 0.05) {
 
   #check that input is a vector
-  if (!(typeof (vec_value) %in% acceptable_types) )
-    stop ('Error: the type of data structure is not supported at this time')
+  acceptable_types <- c("integer", "double")
 
-  #check that number of data points is <= 50 (the original Shapiro-Wilk test is limited to n = 50 values)
+  if (!(typeof (vec_value) %in% acceptable_types) )
+    stop ('Error: the type of data structure for vec_value is not supported at this time')
+
+  #check that number of data points is > 1 and <= 50 (the original Shapiro-Wilk test is limited to those values)
   n <- length (vec_value)
-  if (n > 50)
-    stop ('Error: the number of data points is not supported at this time')
+
+  if (n < 2 | n > 50) stop ('Error: the number of data points is not supported at this time')
 
   #dat_value holds the values of the data
   #column 'original' holds original data as given
@@ -36,7 +33,6 @@ sw_test <- function (vec_value,
   #dat_coef holds values used to calculate W
   #column 'a' holds the coefficients a_i for the calculation of the W statistic
   #the values of the coefficients come from an internal table
-  #the number of coefficients varies with n
   dat_coef <- as.data.frame(stats::na.omit (sw_coefs[,as.character(n)]))
   names (dat_coef) <- 'a'
 
@@ -45,7 +41,6 @@ sw_test <- function (vec_value,
 
   for (i in 1:(n/2)) {
     dat_coef$diff[i] <- dat_value$sorted[(n-i+1)]-dat_value$sorted[i]
-
   }
 
   #column 'a_diff' holds the product of the a_i coefficient and the ith difference
@@ -60,19 +55,26 @@ sw_test <- function (vec_value,
   #W is the test statistic
   W <- (b^2)/SS
 
-  #the values of the p-values come from an internal table
-  p_lower <- unlist(sw_pvals[n,2])
-  p_upper <- unlist (sw_pvals[n,3])
+  #the p-values come from an internal table
+  possible_pvals <- unlist(sw_pvals[n,])
 
-  p_val <- .05 - ((.03)*(p_upper - W)/(p_upper - p_lower))
-  reject_decision <- ifelse (p_val <= alpha, "yes", "no")
+  if (W < possible_pvals[1]) {
+    p_val <- possible_pvals[1]
+  } else if (W > possible_pvals[9]) {
+    p_val <- possible_pvals[9]
+  } else {
+    x_values <- find_surrounding_pair(W, possible_pvals)$values
+    y_values <- as.numeric(names(possible_pvals)[find_surrounding_pair(W, possible_pvals)$positions])
+
+    p_val <- Hmisc::approxExtrap(x = x_values, y = y_values, xout = W)$y
+  }
+
+  reject_decision <- ifelse (p_val <= alpha, "Reject the null", "Fail to reject the null")
 
   # print ("Shapiro-Wilk Test of Normality")
-  # print (paste0("W = ", W, ", p = ", p_val))
-  # print (paste0 ("Reject? ", reject_decision))
-  # return (W)
+  # print (paste0("W = ", round (W, 5), ", p = ", round (p_val, 5)))
+  # print (paste0 ("Decision: ", reject_decision))
 
-
-  return (round (W, 5))
+  return (W)
 
 }
