@@ -50,7 +50,8 @@ devtools::install_github("chrsshn/checknormality")
 ```
 
 ## Example 1: Testing a sample from a normal distribution
-``` r
+``` {r echo = T}
+library (checknormality)
 set1 <- rnorm (50, 0, 1)
 shapiro.test (set1)
 sw_test (set1)
