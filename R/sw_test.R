@@ -71,9 +71,9 @@ sw_test <- function (vec_value, alpha = 0.05) {
 
   reject_decision <- ifelse (p_val <= alpha, "Reject the null", "Fail to reject the null")
 
-  # print ("Shapiro-Wilk Test of Normality")
-  # print (paste0("W = ", round (W, 5), ", p = ", round (p_val, 5)))
-  # print (paste0 ("Decision: ", reject_decision))
+  print ("Shapiro-Wilk Test of Normality")
+  print (paste0("W = ", round (W, 5), ", p = ", round (p_val, 5)))
+  print (paste0 ("Decision: ", reject_decision))
 
   return (W)
 

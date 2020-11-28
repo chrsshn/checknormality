@@ -18,5 +18,5 @@ a list with positions of the values within the vector and the values
 Find the two values within a vector that immediately surround the target value
 }
 \examples{
-find_surrounding_pair (1:10, 5)
+find_surrounding_pair (5, 1:10)
 }
