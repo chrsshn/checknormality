@@ -16,7 +16,7 @@ The goal of checknormality is to provide an implementation of popular normality 
 ## A Note on the Algorithms
 
 ### Shapiro-Wilk Test
-- For  3 <= n <= 50, the original approach for the Shapiro-Wilk test (as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/)) is used.
+- For  2 <= n <= 50, the original approach for the Shapiro-Wilk test (as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/)) is used.
 
 - For n > 50, the J. P. Royston approach for the Shapiro-Wilk test (as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/)) is used.
 
