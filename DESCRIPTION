@@ -15,4 +15,5 @@ Suggests:
 Depends: 
     R (>= 2.10)
 Imports: 
-    stats
+    stats,
+    Hmisc
