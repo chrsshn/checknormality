@@ -20,7 +20,7 @@ find_surrounding_pair <- function (target, x) {
     stop ('Error: the type of data structure for x is not supported at this time')
 
   #check that target is within the range of x
-  if (target < x[1] | target > x[length(x)])
+  if ((target < x[1]) | (target > x[length(x)]))
     stop ('Error: the target is out of range')
 
 
