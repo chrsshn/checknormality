@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' get_pvalue (.970, 30)
+#' get_pvalue (.970, 20)
 
 get_pvalue <- function (W, n) {
   #the p-values come from an internal table
@@ -22,7 +22,7 @@ get_pvalue <- function (W, n) {
   } else {
     x_values <- find_surrounding_pair(W, possible_pvals)$values
     y_values <- as.numeric(names(x_values))
-    p_val <- Hmisc::approxExtrap(x = x_values, y = as.numeric(y_values), xout = W)$y
+    p_val <- Hmisc::approxExtrap(x = x_values, y = y_values, xout = W)$y
 
   }
   return (p_val)

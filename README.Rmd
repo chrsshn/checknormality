@@ -65,5 +65,6 @@ set2 <- rpois(50, .787)
 shapiro.test (set2)
 sw_test (set2)
 plot(density (set2))
+
 ```
 
