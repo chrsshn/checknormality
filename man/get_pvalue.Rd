@@ -16,6 +16,7 @@ p-value
 }
 \description{
 Note that this is specific for p-values using the original or modified original Shapiro-Wilk method
+Because this implementation uses a p-value table, p-values < 0.01 are reported as "0.001", and p-values > 0.99 are reported as "0.999"
 }
 \examples{
 get_pvalue (.970, 20)
