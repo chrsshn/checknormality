@@ -1,0 +1,155 @@
+---
+title: "Predicting the Age of Abalone"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Predicting the Age of Abalone}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+  
+  ```{r, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+```
+
+## checknormality on real world data
+The goal of the checknormality package is to re-implement well-known tests of normality. In this vignette, we will use linear regression to predict the age of abalone and use the Shapiro-Wilk test implementation in the checknormality package to make sure normality assumptions are met. For more information about the dataset, click [here](http://archive.ics.uci.edu/ml/datasets/Abalone).
+
+```{r setup, message = F}
+library(checknormality)
+library (AppliedPredictiveModeling)
+library (ggplot2)
+library (dplyr)
+library (tidyr)
+library (tableone)
+```
+
+### step 0: load the data
+```{r, message = F}
+data("abalone")
+dat <- abalone
+measurement_variables <- names(dat)[-1]
+measurement_units <- c("mm","mm", "mm", "grams","grams","grams","grams","number of")
+measurement_labels <- c(paste0 (measurement_variables, " (", measurement_units, ")"))
+names(measurement_labels) <- measurement_variables
+```
+
+### step 1: run a descriptive analysis
+```{r, message = F, eval = T, echo = T}
+dat_with_labels <- dat
+names(dat_with_labels) <- c("Type", measurement_labels)
+
+print(CreateTableOne(data = dat_with_labels, vars = names(dat_with_labels)[-c(1)], strata = "Type", test = T, addOverall = T)) %>%
+  as.data.frame() %>%
+  knitr::kable()
+```
+There are 4177 observations of 9 variables/measurements, only one of which is a qualitative measure-- Type (representing the sex of the abalone: Female, Male, or Infant). Using the tableone package, we can stratify the 8 quantitative measurements using Type. We see that the means of the measurements are significantly different across Type.
+
+```{r, fig.width = 7.2, fig.height=7.2}
+dat_with_labels %>%
+  dplyr::mutate (ID = dplyr::row_number()) %>%
+  tidyr::pivot_longer(cols = names(dat_with_labels)[-1],
+                      names_to = "measurement",
+                      values_to = "value") %>%
+  ggplot() +
+  geom_density (aes(x = value, group = Type, color = Type)) +
+  labs (title = "Measurements of Abalone Grouped by Type") +
+  facet_wrap(~measurement, nrow = 3, scales = "free") +
+  theme_bw()
+
+```
+From these histograms, we can make several observations:
+* abalone of Type 'Infant' seem to be significantly different in almost every measurement variable than Types 'Female' and 'Male'
+* abalone of Type 'Infant' seem to have normally distributed Diameter and LongestShell
+* abalone of Type 'Male' and 'Female' seem to have normally distributed Rings, ShellWeight, ShuckedWeight, VisceraWeight, and WholeWeight
+
+### step 2: decide on a model 
+As recommended by the publisher of the dataset, we will predict age (calculated as the number of rings + 1.5) in years. We will begin with a multiple linear regression for now using Type, Diameter, Height, LongestShell, and WholeWeight.
+
+$$ Age_i = \beta_0 + \beta_1TypeF_i + \beta_2TypeM_i + \beta_3Diameter_i + \beta_4Height_i + \beta_5LongestShell_i + \beta_6WholeWeight_i + \epsilon$$
+
+### step 3: estimate model parameters
+``` {r}
+dat_for_lm <- dat %>% 
+  select (Rings, Type, Diameter, Height, LongestShell, WholeWeight) %>%
+  mutate (Age = Rings + 1.5,
+          Type = factor (Type, levels = c("I", "F", "M")),
+          Diameter = Diameter - median (Diameter),
+          Height = Height - median (Height),
+          LongestShell = LongestShell - median (LongestShell),
+          WholeWeight = WholeWeight - median(WholeWeight))
+
+lin_reg <- lm (Age ~ Diameter + Type + Height + LongestShell + WholeWeight, data = dat_for_lm)
+summary(lin_reg)
+```
+* Our model estimates that on average, an infant abalone with Diameter, Height, LongestShell, and WholeWeight with median measurements for those values, respectively, will be 10.9 years old; this estimate is statistically significant (p-value < 0.001)
+* Holding all other variables constant, a 1 mm increase in Diameter is associated with a 22.8 increase in age on average; this association is statistically significant (p-value < 0.001)
+* Our model can account for 36.89% of the variation found in the data
+* There may be non-linear associations between covariates and the outcome, but we will go ahead and check linearity assumptions of a multiple linear regression.
+
+### step 4: check linearity assumptions
+#### the beta coefficients in our model are linear with respect to the outcome
+(see model above)
+
+#### the residuals are normally distributed
+``` {r }
+dat_with_residuals <- cbind (dat_for_lm, 
+                             res = lin_reg$residuals,
+                             yhat = lin_reg$fitted.values)
+
+#QQ Plot
+ggplot(data = dat_with_residuals) + 
+  stat_qq(aes(sample = res, group = Type, color = Type)) +
+  geom_qq_line(aes(sample = res, color = Type)) +
+  geom_abline(slope = 1) +
+  labs (title = "QQ Plot of Residuals") +
+  theme_bw()
+
+
+
+#Histogram
+ggplot (data = dat_with_residuals, aes (x = res, color = Type, fill = Type)) +
+  geom_histogram(aes (y = ..density..), alpha = 0.5, position = "identity") +
+  geom_density (alpha = 0.2) +
+  labs (title = "Histogram of Residuals") +
+  theme_bw()
+
+summary (lin_reg$residuals)
+sw_test (lin_reg$residuals)
+
+
+
+```
+Visually we would be a little suspect of the normality of the residuals, but the Shapiro-Wilk Test assures that the residuals can be considered normal
+
+#### the residuals are homoskedastic
+``` {r }
+car::ncvTest (lin_reg)
+
+```
+The Breusch-Pagan test rejects the hypothesis that the data is homoskedastic
+
+#### the residuals are independent of each other
+``` {r }
+ggplot (data = dat_with_residuals) +
+  geom_point (aes (x = yhat, y = res)) +
+  labs (title = "Residuals vs. Fitted Values") +
+  xlab ("Fitted Values") +
+  ylab ("Residuals") +
+  theme_bw()
+
+ggplot (data = dat_with_residuals %>% dplyr::mutate (order = row_number())) +
+  geom_point (aes (x = order, y = res)) +
+  labs (title = "Residuals vs. Order") +
+  xlab ("Observation Order") +
+  ylab ("Residuals") +
+  theme_bw()
+
+
+```
+From the Residuals vs. Fitted plot, we can clearly see some outliers. Because the residuals are not well distributed around 0, we are further suspicious that the variance of the residuals is not constant. 
+
+From the Residuals vs. Order plot, we see 4 "jumps" in the data which suggests that there may be serial correlation.
