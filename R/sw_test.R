@@ -52,7 +52,7 @@ check_sw_test_inputs <- function (vec_value, approach) {
 #' @export
 #'
 #' @examples
-#' original_sw (1:60, "modified")
+#' original_sw (1:20, "modified")
 original_sw <- function (vec_value, approach = "modified"){
   n <- length (vec_value)
 
@@ -105,7 +105,7 @@ royston_sw <- function (vec_value) {
   m_vec <- rep (0, n)
 
   for (i in 1:n) {
-    m_vec[i] = qnorm ((i - 0.375) / (n + 0.25))
+    m_vec[i] = stats::qnorm ((i - 0.375) / (n + 0.25))
   }
 
   m_val <- sum(m_vec * m_vec)
@@ -138,7 +138,7 @@ royston_sw <- function (vec_value) {
 
   }
 
-  W = (cor (as.matrix (cbind (dat_value$sorted, dat_coef)))[1,2])^2
+  W = (stats::cor (as.matrix (cbind (dat_value$sorted, dat_coef)))[1,2])^2
 
   mu = 0.0038915 * log(n)^3 - 0.083751 * log(n)^2 - 0.31082*log(n) - 1.5861
 
@@ -146,7 +146,7 @@ royston_sw <- function (vec_value) {
 
   z = (log (1 - W) - mu) / sigma
 
-  p_val <- 1 - pnorm (z)
+  p_val <- 1 - stats::pnorm (z)
 
   return (list (W, p_val))
 }
