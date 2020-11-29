@@ -22,17 +22,18 @@ only the
 
 ### Shapiro-Wilk Test
 
-  - For 2 \<= n \<= 50, there are two “options”: the original approach
-    for the Shapiro-Wilk test as described
-    [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/)
-    and a modified approach that is compatible with the Royston approach
-    (see below) as described in the last paragraph
-    [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/).
-
   - For n \> 50, the J. P. Royston approach for the Shapiro-Wilk test as
     described
     [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/)
-    is used.
+    must be used
+
+  - For 3 \<= n \<= 50, there are three “options”: the original approach
+    for the Shapiro-Wilk test as described
+    [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/),
+    a modified approach that is compatible with the Royston approach as
+    described in the last paragraph
+    [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/),
+    and the Royston approach for n \> 20
 
 ## Installation
 
@@ -50,45 +51,57 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("chrsshn/checknormality")
 ```
 
-## Example 1: Testing a sample from a normal distribution
+## Example 1: Testing a sample from a normal distribution using the Royston and modified approaches
 
 ``` r
 library (checknormality)
-set1 <- rnorm (50, 0, 1)
+set1 <- rnorm (30, 0, 1)
 shapiro.test (set1)
 #> 
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set1
-#> W = 0.96629, p-value = 0.1629
-sw_test (set1)
+#> W = 0.98006, p-value = 0.8272
+sw_test (set1, "royston")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set1
-#> W = 0.9536, p-value = 0.09129
+#> W = 0.98024, p-value = 0.8318
+sw_test (set1, "modified")
+#> 
+#>  Shapiro-Wilk Test of Normality
+#> 
+#> data:  set1
+#> W = 0.97937, p-value = 0.8104
 plot(density (set1))
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-## Example 2: Testing a sample from a normal distribution
+## Example 2: Testing a sample from a non-normal distribution using the Royston and modified approaches
 
 ``` r
 library (checknormality)
-set2 <- rpois(50, .787)
+set2 <- rpois(40, .787)
 shapiro.test (set2)
 #> 
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set2
-#> W = 0.81013, p-value = 1.512e-06
-sw_test (set2)
+#> W = 0.83773, p-value = 4.594e-05
+sw_test (set2, "royston")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set2
-#> W = 0.8028, p-value = 0.001
+#> W = 0.83827, p-value = 5e-05
+sw_test (set2, "modified")
+#> 
+#>  Shapiro-Wilk Test of Normality
+#> 
+#> data:  set2
+#> W = 0.8278, p-value = 0.001
 plot(density (set2))
 ```
 

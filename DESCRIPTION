@@ -16,4 +16,7 @@ Depends:
     R (>= 2.10)
 Imports: 
     stats,
-    Hmisc
+    Hmisc,
+    Rcpp
+LinkingTo: 
+    Rcpp

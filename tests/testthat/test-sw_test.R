@@ -1,5 +1,4 @@
 test_using_distributions <- function (dist, n, param1, param2) {
-  #use a different return statement depending on the distribution
   need_1_param = c("rpois", "rexp")
 
   if (dist %in% need_1_param)
@@ -7,8 +6,10 @@ test_using_distributions <- function (dist, n, param1, param2) {
   else
     test_dist = match.fun(dist) (n, param1, param2)
 
+  approach = ifelse (n > 20, "royston", "modified")
+
   expect_equivalent (shapiro.test(test_dist)$statistic,
-                     sw_test(test_dist)$statistic,
+                     sw_test(test_dist, approach)$statistic,
                      tolerance = 0.02)
 }
 

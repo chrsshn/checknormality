@@ -28,9 +28,9 @@ The goal of checknormality is to provide an implementation of popular normality 
 ## A Note on the Algorithms
 
 ### Shapiro-Wilk Test
-- For  2 <= n <= 50, there are two "options": the original approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/) and a modified approach that is compatible with the Royston approach (see below)  as described in the last paragraph [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/).
+- For n > 50, the J. P. Royston approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/) must be used
 
-- For n > 50, the J. P. Royston approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/) is used.
+- For  3 <= n <= 50, there are three "options": the original approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/), a modified approach that is compatible with the Royston approach as described in the last paragraph [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/), and the Royston approach for n > 20
 
 
 ## Installation
@@ -49,21 +49,23 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("chrsshn/checknormality")
 ```
 
-## Example 1: Testing a sample from a normal distribution
+## Example 1: Testing a sample from a normal distribution using the Royston and modified approaches
 ```{r echo=TRUE, eval = T}
 library (checknormality)
-set1 <- rnorm (50, 0, 1)
+set1 <- rnorm (30, 0, 1)
 shapiro.test (set1)
-sw_test (set1)
+sw_test (set1, "royston")
+sw_test (set1, "modified")
 plot(density (set1))
 ```
 
-## Example 2: Testing a sample from a normal distribution
+## Example 2: Testing a sample from a non-normal distribution using the Royston and modified approaches
 ``` {r echo = T, eval = T}
 library (checknormality)
-set2 <- rpois(50, .787)
+set2 <- rpois(40, .787)
 shapiro.test (set2)
-sw_test (set2)
+sw_test (set2, "royston")
+sw_test (set2, "modified")
 plot(density (set2))
 ```
 
