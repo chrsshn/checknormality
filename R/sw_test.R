@@ -31,7 +31,6 @@ sw_test <- function (vec_value, alpha = 0.05, version = "modified") {
   if (version == "modified") {
     dat_coef <- as.data.frame(stats::na.omit (modified_sw_coefs[,as.character(n)]))
 
-    #column 'diff' holds the values of the original data in sorted order
     dat_coef$diff <- dat_value$sorted
   } else {
     dat_coef <- as.data.frame(stats::na.omit (sw_coefs[,as.character(n)]))
@@ -51,7 +50,7 @@ sw_test <- function (vec_value, alpha = 0.05, version = "modified") {
   SS <- sum((dat_value$sorted-mean(dat_value$sorted))^2)
   W <- (b^2)/SS
 
-  p_val <- get_pvalue (W)
+  p_val <- get_pvalue (W, n)
 
   toreturn <- list (statistic = c(W = round (W, 5)),
                     p.value = round (p_val, 5),
