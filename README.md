@@ -12,10 +12,11 @@ coverage](https://codecov.io/gh/chrsshn/checknormality/branch/main/graph/badge.s
 <!-- badges: end -->
 
 The goal of checknormality is to provide an implementation of popular
-normality tests that returns the test statistics as well as plots the
-distributions of sample points. Comparable versions of the Shapiro-Wilk
-test and the Kolmogorov-Smirnov test are accessible through the base
-stats package (base::shapiro.test and base::ks.test, respectively).
+normality tests that returns the test statistics from various normality
+tests. Comparable versions of the Shapiro-Wilk test and the
+Kolmogorov-Smirnov test are accessible through the base stats package
+(base::shapiro.test and base::ks.test, respectively). As of 2020/11/28,
+only the
 
 ## A Note on the Algorithms
 
@@ -59,13 +60,13 @@ shapiro.test (set1)
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set1
-#> W = 0.98753, p-value = 0.8723
+#> W = 0.96629, p-value = 0.1629
 sw_test (set1)
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set1
-#> W = 0.98601, p-value = 0.9168
+#> W = 0.9536, p-value = 0.09129
 plot(density (set1))
 ```
 
@@ -81,13 +82,13 @@ shapiro.test (set2)
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set2
-#> W = 0.78751, p-value = 4.573e-07
+#> W = 0.81013, p-value = 1.512e-06
 sw_test (set2)
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set2
-#> W = 0.78452, p-value = 0.93
+#> W = 0.8028, p-value = 0.001
 plot(density (set2))
 ```
 

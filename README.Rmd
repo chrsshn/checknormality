@@ -23,7 +23,7 @@ status](https://travis-ci.com/chrsshn/checknormality.svg?branch=main)](https://t
 coverage](https://codecov.io/gh/chrsshn/checknormality/branch/main/graph/badge.svg)](https://codecov.io/gh/chrsshn/checknormality?branch=main)
 <!-- badges: end -->
 
-The goal of checknormality is to provide an implementation of popular normality tests that returns the test statistics as well as plots the distributions of sample points. Comparable versions of the Shapiro-Wilk test and the Kolmogorov-Smirnov test are accessible through the base stats package (base::shapiro.test and base::ks.test, respectively).
+The goal of checknormality is to provide an implementation of popular normality tests that returns the test statistics from various normality tests. Comparable versions of the Shapiro-Wilk test and the Kolmogorov-Smirnov test are accessible through the base stats package (base::shapiro.test and base::ks.test, respectively). As of 2020/11/28, only the 
 
 ## A Note on the Algorithms
 

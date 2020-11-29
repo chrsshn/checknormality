@@ -4,12 +4,14 @@
 \alias{get_pvalue}
 \title{Calculate the p-value associated with the W statistic}
 \usage{
-get_pvalue(W, n)
+get_pvalue(W, n, h = "harmonic")
 }
 \arguments{
 \item{W}{double}
 
 \item{n}{integer}
+
+\item{h}{character}
 }
 \value{
 p-value

@@ -5,6 +5,7 @@
 #'
 #' @param W double
 #' @param n integer
+#' @param h character
 #'
 #' @return p-value
 #' @export
@@ -12,7 +13,7 @@
 #' @examples
 #' get_pvalue (.970, 20)
 
-get_pvalue <- function (W, n) {
+get_pvalue <- function (W, n, h = "harmonic") {
   #the p-values come from an internal table
   possible_pvals <- unlist(sw_pvals[(n-2),])
 
@@ -23,8 +24,17 @@ get_pvalue <- function (W, n) {
   } else {
     x_values <- find_surrounding_pair(W, possible_pvals)$values
     y_values <- as.numeric(names(x_values))
-    p_val <- Hmisc::approxExtrap(x = x_values, y = y_values, xout = W)$y
 
+
+    if (h == "linear") {
+      #linear interpolation
+      p_val <- y_values[2] -
+        (y_values[2]-y_values[1]) * (x_values[2] - W)/(x_values[2] - x_values[1])
+    } else {
+      #harmonic interpolation
+      p_val <-  y_values[1] +
+        (y_values[2]-y_values[1]) * (1 - (1/W - 1/x_values[2])/(1/x_values[1] - 1/x_values[2]))
+    }
   }
   return (p_val)
 }
