@@ -17,6 +17,9 @@ Depends:
 Imports: 
     stats,
     Hmisc,
-    Rcpp
+    Rcpp,
+    knitr,
+    rmarkdown
 LinkingTo: 
     Rcpp
+VignetteBuilder: knitr

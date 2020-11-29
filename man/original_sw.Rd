@@ -18,5 +18,5 @@ w_p list containing the W test-statistic and p-value
 Implement the original and modified approaches for the Shapiro-Wilk test
 }
 \examples{
-original_sw (1:60, "modified")
+original_sw (1:20, "modified")
 }

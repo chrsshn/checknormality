@@ -7,7 +7,7 @@
 royston_sw(vec_value)
 }
 \arguments{
-\item{vec_value}{}
+\item{vec_value}{double}
 }
 \value{
 w_p list containing the W test-statistic and p-value
