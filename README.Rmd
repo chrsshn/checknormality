@@ -50,7 +50,7 @@ devtools::install_github("chrsshn/checknormality")
 ```
 
 ## Example 1: Testing a sample from a normal distribution
-```{normal sample, echo=TRUE, eval - T}
+```{r echo=TRUE, eval = T}
 library (checknormality)
 set1 <- rnorm (50, 0, 1)
 shapiro.test (set1)
@@ -61,9 +61,9 @@ plot(density (set1))
 ## Example 2: Testing a sample from a normal distribution
 ``` {r echo = T, eval = T}
 library (checknormality)
-set1 <- rnorm (50, 0, 1)
-shapiro.test (set1)
-sw_test (set1)
-plot(density (set1))
+set2 <- rpois(50, .787)
+shapiro.test (set2)
+sw_test (set2)
+plot(density (set2))
 ```
 

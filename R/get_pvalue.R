@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' get_pvalue (.970)
+#' get_pvalue (.970, 30)
 
 get_pvalue <- function (W, n) {
   #the p-values come from an internal table
