@@ -4,17 +4,19 @@
 \alias{get_pvalue}
 \title{Calculate the p-value associated with the W statistic}
 \usage{
-get_pvalue(W)
+get_pvalue(W, n)
 }
 \arguments{
 \item{W}{double}
+
+\item{n}{integer}
 }
 \value{
 p-value
 }
 \description{
-Calculate the p-value associated with the W statistic
+Note that this is specific for p-values using the original or modified original Shapiro-Wilk method
 }
 \examples{
-get_pvalue (.970)
+get_pvalue (.970, 20)
 }

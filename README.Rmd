@@ -66,5 +66,7 @@ shapiro.test (set2)
 sw_test (set2)
 plot(density (set2))
 
+
+
 ```
 
