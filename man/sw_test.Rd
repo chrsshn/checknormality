@@ -4,18 +4,20 @@
 \alias{sw_test}
 \title{Shapiro-Wilk Test}
 \usage{
-sw_test(vec_value, alpha = 0.05)
+sw_test(vec_value, alpha = 0.05, version = "modified")
 }
 \arguments{
 \item{vec_value}{vector}
 
 \item{alpha}{character}
+
+\item{version}{character}
 }
 \value{
 p_value
 }
 \description{
-Test the normality of a vector using either the original or modified (Royston) version of the Shapiro-Wilk test
+Test the normality of a vector using either the original, modified original, or Royston version of the Shapiro-Wilk test
 }
 \examples{
 sw_test (rnorm(10, 0, 1))

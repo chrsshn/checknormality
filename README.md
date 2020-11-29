@@ -21,14 +21,16 @@ stats package (base::shapiro.test and base::ks.test, respectively).
 
 ### Shapiro-Wilk Test
 
-  - For 2 \<= n \<= 50, the original approach for the Shapiro-Wilk test
-    (as described
-    [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/))
-    is used.
+  - For 2 \<= n \<= 50, there are two “options”: the original approach
+    for the Shapiro-Wilk test as described
+    [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/)
+    and a modified approach that is compatible with the Royston approach
+    (see below) as described in the last paragraph
+    [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/).
 
-  - For n \> 50, the J. P. Royston approach for the Shapiro-Wilk test
-    (as described
-    [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/))
+  - For n \> 50, the J. P. Royston approach for the Shapiro-Wilk test as
+    described
+    [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/)
     is used.
 
 ## Installation
@@ -49,6 +51,16 @@ devtools::install_github("chrsshn/checknormality")
 
 ## Example 1: Testing a sample from a normal distribution
 
+``` normal
+library (checknormality)
+set1 <- rnorm (50, 0, 1)
+shapiro.test (set1)
+sw_test (set1)
+plot(density (set1))
+```
+
+## Example 2: Testing a sample from a normal distribution
+
 ``` r
 library (checknormality)
 set1 <- rnorm (50, 0, 1)
@@ -57,18 +69,18 @@ shapiro.test (set1)
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set1
-#> W = 0.9548, p-value = 0.0539
+#> W = 0.98503, p-value = 0.773
 sw_test (set1)
-#>  [1] 2.377756e-01 1.411785e-01 1.368072e+00 5.530068e-01 4.314716e-01
-#>  [6] 2.460454e+00 7.578587e-01 1.281544e+00 1.435545e+00 7.254490e-05
-#> [11] 3.494289e-01 3.679284e-01 4.336805e-02 1.309439e-01 2.373025e-02
-#> [16] 1.095953e-02 4.622461e-03 9.467963e-02 4.892072e+00 8.406685e-01
-#> [21] 2.626127e-03 6.653901e-01 6.182574e-02 5.340327e-01 1.535097e-01
-#> [26] 2.573783e+00 5.343876e-02 3.762919e+00 1.240212e+00 3.086018e-01
-#> [31] 1.263935e+00 3.673762e-02 3.833045e-01 3.415432e+00 4.338122e-04
-#> [36] 9.881289e-03 1.617927e-01 1.014303e-01 8.538529e-02 7.838220e+00
-#> [41] 2.064438e-01 5.170874e-01 9.988647e-01 4.415216e-01 9.092870e-01
-#> [46] 2.395856e-01 8.351626e-05 3.304193e+00 5.199865e-01 7.184153e-02
+#>  [1] 1.688670e+00 4.021886e-01 5.616954e-01 5.138895e-01 9.534717e-01
+#>  [6] 5.266090e-03 1.227038e-01 4.546810e-01 1.219958e-02 7.404258e-01
+#> [11] 5.103042e-01 1.005203e+00 1.455994e+00 4.128012e+00 1.228166e+00
+#> [16] 1.491502e+00 7.163809e-01 3.139425e-01 7.001719e-01 8.884068e-01
+#> [21] 1.199625e-01 6.154608e-02 1.908010e+00 3.608774e-05 6.804595e-02
+#> [26] 1.377779e-02 7.166097e+00 2.372139e-01 3.730401e+00 1.462941e-01
+#> [31] 4.041212e-01 1.576736e-01 4.202577e-01 3.918320e-01 3.323551e-02
+#> [36] 7.341878e-01 1.590865e-01 2.679409e-02 2.971106e-02 1.118247e-01
+#> [41] 2.327180e-01 2.323793e-01 6.221634e-02 5.439554e+00 1.675611e+00
+#> [46] 2.752238e-01 1.357998e-02 3.801394e-02 7.204376e-03 8.234500e-01
 plot(density (set1))
 ```
 

@@ -28,9 +28,9 @@ The goal of checknormality is to provide an implementation of popular normality 
 ## A Note on the Algorithms
 
 ### Shapiro-Wilk Test
-- For  2 <= n <= 50, the original approach for the Shapiro-Wilk test (as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/)) is used.
+- For  2 <= n <= 50, there are two "options": the original approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/) and a modified approach that is compatible with the Royston approach (see below)  as described in the last paragraph [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/).
 
-- For n > 50, the J. P. Royston approach for the Shapiro-Wilk test (as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/)) is used.
+- For n > 50, the J. P. Royston approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/) is used.
 
 
 ## Installation
@@ -50,7 +50,16 @@ devtools::install_github("chrsshn/checknormality")
 ```
 
 ## Example 1: Testing a sample from a normal distribution
-``` {r echo = T}
+```{normal sample, echo=TRUE}
+library (checknormality)
+set1 <- rnorm (50, 0, 1)
+shapiro.test (set1)
+sw_test (set1)
+plot(density (set1))
+```
+
+## Example 2: Testing a sample from a normal distribution
+``` {r echo = T, eval = T}
 library (checknormality)
 set1 <- rnorm (50, 0, 1)
 shapiro.test (set1)

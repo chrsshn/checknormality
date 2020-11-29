@@ -23,7 +23,6 @@ find_surrounding_pair <- function (target, x) {
   if ((target < x[1]) | (target > x[length(x)]))
     stop ('Error: the target is out of range')
 
-
   #note that the interval is closed on the right (i.e. the upper value will be at most equal to the target)
   lower_position <- which.max (x[(x < target)])
   lower_value <- x[lower_position]

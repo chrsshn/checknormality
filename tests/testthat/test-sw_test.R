@@ -8,7 +8,7 @@ test_using_distributions <- function (dist, n, param1, param2) {
     test_dist = match.fun(dist) (n, param1, param2)
 
   expect_equivalent (shapiro.test(test_dist)$statistic,
-                     sw_test(test_dist),
+                     sw_test(test_dist)$statistic,
                      tolerance = 0.02)
 }
 
