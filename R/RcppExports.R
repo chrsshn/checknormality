@@ -40,8 +40,6 @@ stl_sort <- function(x) {
 #' @return the test statistic for the Shapiro-Wilk test; double, between 0 and
 #' 1
 #'
-#' @examples
-#' C_get_W(1:10)
 #'
 C_get_W <- function(vec_value) {
     .Call(`_checknormality_C_get_W`, vec_value)

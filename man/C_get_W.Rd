@@ -20,7 +20,3 @@ of the Royston approach (which can be found in the R folder). For a
 step-by-step explanation of this function, look at the Readme file under
 "A Note on the Algorithms".
 }
-\examples{
-C_get_W(1:10)
-
-}

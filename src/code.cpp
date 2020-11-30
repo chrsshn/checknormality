@@ -67,8 +67,6 @@ NumericVector stl_sort (NumericVector x) {
 //' @return the test statistic for the Shapiro-Wilk test; double, between 0 and
 //' 1
 //'
-//' @examples
-//' C_get_W(1:10)
 //'
 // [[Rcpp::export]]
 double C_get_W (NumericVector vec_value) {
