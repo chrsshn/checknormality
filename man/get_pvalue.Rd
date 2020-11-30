@@ -7,11 +7,11 @@
 get_pvalue(W, n, h = "harmonic")
 }
 \arguments{
-\item{W}{double}
+\item{W}{double, the test statistic for the Shapiro-Wilk test}
 
-\item{n}{integer}
+\item{n}{integer, the number of data points}
 
-\item{h}{character}
+\item{h}{character, whether or not to use harmonic interpolation; the alternative is linear interpolation}
 }
 \value{
 p-value

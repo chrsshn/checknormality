@@ -37,6 +37,14 @@ double NormalCDFInverse(double p) {
   }
 }
 
+
+// [[Rcpp::export]]
+NumericVector stl_sort (NumericVector x) {
+  NumericVector y = clone(x);
+  std::sort(y.begin(), y.end());
+  return y;
+}
+
 // [[Rcpp::export]]
 double C_get_W (NumericVector vec_value) {
   int n = vec_value.size();
@@ -48,7 +56,7 @@ double C_get_W (NumericVector vec_value) {
     m_val += m_vec[i] * m_vec[i];
   }
 
-  double u = 1/sqrt (n);
+  double u = 1.0/sqrt (n);
 
 
   NumericVector dat_coef(n);
@@ -80,12 +88,14 @@ double C_get_W (NumericVector vec_value) {
 
   double numerator = 0;
   double denominator = 0;
+  NumericVector sorted_vec_value = stl_sort (vec_value);
   for (int i = 0; i < n; i++) {
-    numerator += dat_coef[i] * vec_value[i];
-    denominator += pow (vec_value[i] - mean(vec_value),2);
+    numerator += dat_coef[i] * sorted_vec_value[i];
+    denominator += pow (sorted_vec_value[i] - mean(vec_value),2);
 
 
   }
+
 
   double W = pow (numerator, 2)/denominator;
 

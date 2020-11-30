@@ -3,9 +3,9 @@
 #' Note that this is specific for p-values using the original or modified original Shapiro-Wilk method
 #' Because this implementation uses a p-value table, p-values < 0.01 are reported as "0.001", and p-values > 0.99 are reported as "0.999"
 #'
-#' @param W double
-#' @param n integer
-#' @param h character
+#' @param W double, the test statistic for the Shapiro-Wilk test
+#' @param n integer, the number of data points
+#' @param h character, whether or not to use harmonic interpolation; the alternative is linear interpolation
 #'
 #' @return p-value
 #' @export

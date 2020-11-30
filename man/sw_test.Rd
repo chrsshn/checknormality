@@ -4,7 +4,7 @@
 \alias{sw_test}
 \title{Shapiro-Wilk Test}
 \usage{
-sw_test(vec_value, approach = "royston", use_c = F)
+sw_test(vec_value, approach = "royston", use_c = T)
 }
 \arguments{
 \item{vec_value}{numeric vector containing data points, of type integer or double}

@@ -5,10 +5,6 @@
 #' @param vec_value integer containing data points, of type integer or double
 #' @param approach character, one of "original", "modified", or "royston"
 #' @return approach_to_use is the recommended approach and may not be identical to what the user initially chose
-#' @export
-#'
-#' @examples
-#' check_sw_test_inputs (1:60, "royston")
 check_sw_test_inputs <- function (vec_value, approach) {
   #check that input is a vector
   valid_vec_type <- c("integer", "double")
@@ -155,11 +151,12 @@ royston_sw <- function (vec_value, use_c = T) {
   else
     W = R_get_W (vec_value)
 
+
   n <- length(vec_value)
 
-  mu = 0.0038915 * log(n)^3 - 0.083751 * log(n)^2 - 0.31082*log(n) - 1.5861
+  mu = 0.0038915 * (log(n))^3 - 0.083751 * (log(n))^2 - 0.31082*log(n) - 1.5861
 
-  sigma = exp (0.0030302 * log(n)^2 - 0.082676 * log (n) - 0.4803)
+  sigma = exp (0.0030302 * (log(n))^2 - 0.082676 * (log (n)) - 0.4803)
 
   z = (log (1 - W) - mu) / sigma
 
@@ -177,6 +174,7 @@ royston_sw <- function (vec_value, use_c = T) {
 #'
 #' @useDynLib checknormality, .registration = TRUE
 #' @importFrom Rcpp evalCpp
+#'
 #' @param vec_value numeric vector containing data points, of type integer or double
 #' @param approach character, one of "original", "modified", or "royston"
 #' @param use_c boolean, 0 if the R implementation for calculating W should be used or 1 if the Rcpp implentation should be used
@@ -187,7 +185,7 @@ royston_sw <- function (vec_value, use_c = T) {
 #' @examples
 #' sw_test (rnorm(10, 0, 1))
 #'
-sw_test <- function (vec_value, approach = "royston", use_c = F) {
+sw_test <- function (vec_value, approach = "royston", use_c = T) {
   actual_approach = check_sw_test_inputs (vec_value, approach)
 
   if (actual_approach %in% c("original", "modified"))

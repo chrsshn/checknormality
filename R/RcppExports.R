@@ -6,14 +6,18 @@
 #' @param t double
 #' @return Product of v1 and v2
 RationalApproximation <- function(t) {
-    .Call('_checknormality_RationalApproximation', PACKAGE = 'checknormality', t)
+    .Call(`_checknormality_RationalApproximation`, t)
 }
 
 NormalCDFInverse <- function(p) {
-    .Call('_checknormality_NormalCDFInverse', PACKAGE = 'checknormality', p)
+    .Call(`_checknormality_NormalCDFInverse`, p)
+}
+
+stl_sort <- function(x) {
+    .Call(`_checknormality_stl_sort`, x)
 }
 
 C_get_W <- function(vec_value) {
-    .Call('_checknormality_C_get_W', PACKAGE = 'checknormality', vec_value)
+    .Call(`_checknormality_C_get_W`, vec_value)
 }
 

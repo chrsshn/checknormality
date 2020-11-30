@@ -19,7 +19,6 @@ find_surrounding_pair <- function (target, x) {
   if (!(typeof (x) %in% acceptable_types) )
     stop ('Error: the type of data structure for x is not supported at this time')
 
-
   #note that the interval is closed on the right (i.e. the upper value will be at most equal to the target)
   lower_position <- which.max (x[(x < target)])
   lower_value <- x[lower_position]
