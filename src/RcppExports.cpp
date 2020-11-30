@@ -5,39 +5,6 @@
 
 using namespace Rcpp;
 
-// RationalApproximation
-double RationalApproximation(double t);
-RcppExport SEXP _checknormality_RationalApproximation(SEXP tSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type t(tSEXP);
-    rcpp_result_gen = Rcpp::wrap(RationalApproximation(t));
-    return rcpp_result_gen;
-END_RCPP
-}
-// NormalCDFInverse
-double NormalCDFInverse(double p);
-RcppExport SEXP _checknormality_NormalCDFInverse(SEXP pSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(NormalCDFInverse(p));
-    return rcpp_result_gen;
-END_RCPP
-}
-// stl_sort
-NumericVector stl_sort(NumericVector x);
-RcppExport SEXP _checknormality_stl_sort(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(stl_sort(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // C_get_W
 double C_get_W(NumericVector vec_value);
 RcppExport SEXP _checknormality_C_get_W(SEXP vec_valueSEXP) {
@@ -51,9 +18,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_checknormality_RationalApproximation", (DL_FUNC) &_checknormality_RationalApproximation, 1},
-    {"_checknormality_NormalCDFInverse", (DL_FUNC) &_checknormality_NormalCDFInverse, 1},
-    {"_checknormality_stl_sort", (DL_FUNC) &_checknormality_stl_sort, 1},
     {"_checknormality_C_get_W", (DL_FUNC) &_checknormality_C_get_W, 1},
     {NULL, NULL, 0}
 };

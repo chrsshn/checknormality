@@ -8,11 +8,7 @@
 #'
 #' @param t double
 #' @return Product of v1 and v2
-#'
-#' @export
-RationalApproximation <- function(t) {
-    .Call(`_checknormality_RationalApproximation`, t)
-}
+NULL
 
 #' Calculates the Normal CDF Inverse
 #'
@@ -20,20 +16,14 @@ RationalApproximation <- function(t) {
 #' @param double p
 #' @return value for which the normal CDF < p
 #'
-#' @export
-NormalCDFInverse <- function(p) {
-    .Call(`_checknormality_NormalCDFInverse`, p)
-}
+NULL
 
 #' Sorts a vector in ascending order
 #'
 #' @param NumericVector x
 #' @return x in ascending order
 #'
-#' @export
-stl_sort <- function(x) {
-    .Call(`_checknormality_stl_sort`, x)
-}
+NULL
 
 #' Calculate the W statistic for the Royston approach (implemented in Rcpp)
 #'

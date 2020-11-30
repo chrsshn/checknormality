@@ -11,9 +11,6 @@ using namespace Rcpp;
 //'
 //' @param t double
 //' @return Product of v1 and v2
-//'
-//' @export
-// [[Rcpp::export]]
 double RationalApproximation (double t) {
   // Abramowitz and Stegun formula 26.2.23.
   // The absolute value of the error should be less than 4.5 e-4.
@@ -29,8 +26,6 @@ double RationalApproximation (double t) {
 //' @param double p
 //' @return value for which the normal CDF < p
 //'
-//' @export
-// [[Rcpp::export]]
 double NormalCDFInverse(double p) {
   if (p <= 0.0 || p >= 1.0) {
     std::stringstream os;
@@ -54,8 +49,6 @@ double NormalCDFInverse(double p) {
 //' @param NumericVector x
 //' @return x in ascending order
 //'
-//' @export
-// [[Rcpp::export]]
 NumericVector stl_sort (NumericVector x) {
   NumericVector y = clone(x);
   std::sort(y.begin(), y.end());
