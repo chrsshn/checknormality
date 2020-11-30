@@ -7,17 +7,29 @@
 sw_test(vec_value, approach = "royston", use_c = T)
 }
 \arguments{
-\item{vec_value}{numeric vector containing data points, of type integer or double}
+\item{vec_value}{vector containing data points; integer or double}
 
-\item{approach}{character, one of "original", "modified", or "royston"}
+\item{approach}{designation of the approach to be used; character, one of
+"original", "modified", or "royston"}
 
-\item{use_c}{boolean, 0 if the R implementation for calculating W should be used or 1 if the Rcpp implentation should be used}
+\item{use_c}{whether or not to use Rcpp to calculate W; boolean, 0
+corresponding to R implentation and 1 corresponding toRcpp implementation}
 }
 \value{
-toreturn, an object of class "htest" containing the results of the Shapiro-Wilk test
+toreturn, an object of class "htest" containing the results of the
+Shapiro-Wilk test
 }
 \description{
-This function uses the Shapiro-Wilk to determine whether a set of data points is normally distributed. There are three approaches: original, modified, or Royston. For an explanation of the different uses of the approaches, look at the Readme file under "A Note on the Algorithms". The null hypothesis is that the data is normally distributed, and the alternative hypothesis is that the data is not normally distributed. Note that it is recommended to use the Shapiro-Wilk test for n < 5000 data points because the test is sensitive to detecting non-normality, and a tactic to use for n > 5000 data points is to take a random sample of n = 5000 data points and run the Shapiro-Wilk test on the sample.
+This function uses the Shapiro-Wilk to determine whether a set of data points
+ is normally distributed. There are three approaches: original, modified, or
+ Royston. For an explanation of the different uses of the approaches, look at
+ the Readme file under "A Note on the Algorithms". The null hypothesis is
+ that the data is normally distributed, and the alternative hypothesis is that
+ the data is not normally distributed. Note that it is recommended to use the
+ Shapiro-Wilk test for n < 5000 data points because the test is sensitive to
+ detecting non-normality, and a tactic to use for n > 5000 data points is
+ to take a random sample of n = 5000 data points and run the Shapiro-Wilk
+ test on the sample.
 }
 \examples{
 sw_test (rnorm(10, 0, 1))
