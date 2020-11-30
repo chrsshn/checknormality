@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%"
-)
+) 
 ```
 
 # checknormality: because you should always check your assumptions
@@ -24,7 +24,7 @@ coverage](https://codecov.io/gh/chrsshn/checknormality/branch/main/graph/badge.s
 <!-- badges: end -->
 
 ## Overview
-The goal of checknormality is to provide implementations of popular normality tests that returns the test statistics and p-values. As of 2020/11/30, the package contains an implementation of the [Shapiro-Wilk Test of Normality](https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test).
+The goal of checknormality is to provide implementations of popular normality tests that return the test statistics and p-values. As of 2020/11/30, the package contains an implementation of the [Shapiro-Wilk Test of Normality](https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test).
 
 ## A Note on the Algorithms
 
