@@ -7,13 +7,17 @@
 R_get_W(vec_value)
 }
 \arguments{
-\item{vec_value}{numeric vector containing data points, of type integer or double}
+\item{vec_value}{vector containing data points; integer or double}
 }
 \value{
-W double, the Shapiro-Wilk test statistic ranging from 0 to 1
+the test statistic for the Shapiro-Wilk test; double, between 0 and 1
 }
 \description{
-This function calculates the W test statistic for the Royston approach for the Shapiro-Wilk test. This function is comparable to the Rcpp implementation of the Royston approach (which can be found in the src folder). For a step-by-step explanation of this function, look at the Readme file under "A Note on the Algorithms".
+This function calculates the W test statistic for the Royston approach for
+the Shapiro-Wilk test. This function is comparable to the Rcpp implementation
+of the Royston approach (which can be found in the src folder). For a
+step-by-step explanation of this function, look at the Readme file under
+ "A Note on the Algorithms".
 }
 \examples{
 R_get_W (1:10)

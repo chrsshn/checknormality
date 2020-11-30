@@ -2,20 +2,25 @@
 % Please edit documentation in R/sw_test.R
 \name{original_sw}
 \alias{original_sw}
-\title{Implementation of the original and modified approaches for the Shapiro-Wilk test}
+\title{Implementation of the original and modified approaches for the Shapiro-Wilk
+test}
 \usage{
 original_sw(vec_value, approach = "modified")
 }
 \arguments{
-\item{vec_value}{numeric vector containing data points, of type integer or double}
+\item{vec_value}{vector containing data points; integer or double}
 
-\item{approach}{character, one of "original" or "modified"}
+\item{approach}{designation of the approach to be used; character, one of
+"original", "modified", or "royston"}
 }
 \value{
 w_p a list containing the W test statistic and p-value
 }
 \description{
-This function calculates the W test statistic and p-value for the original and modified approaches for the Shapiro-Wilk test. The original and modified approaches use the Shapiro-Wilk coefficient table (which can be found in the data-raw folder) to determine the value of the test statistic
+This function calculates the W test statistic and p-value for the original
+and modified approaches for the Shapiro-Wilk test. The original and modified
+ approaches use the Shapiro-Wilk coefficient table (which can be found in the
+  data-raw folder) to determine the value of the test statistic
 }
 \examples{
 original_sw (1:20, "modified")

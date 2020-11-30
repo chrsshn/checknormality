@@ -123,7 +123,7 @@ get_pvalue <- function (W, n, use_harmonic = T) {
     y_values <- as.numeric(names(x_values))
 
 
-    if (h == F) {
+    if (use_harmonic == F) {
       #linear interpolation
       p_val <- y_values[2] -
         (y_values[2]-y_values[1]) * (x_values[2] - W)/

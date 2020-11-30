@@ -7,15 +7,18 @@
 royston_sw(vec_value, use_c = T)
 }
 \arguments{
-\item{vec_value}{numeric vector containing data points, of type integer or double}
+\item{vec_value}{vector containing data points; integer or double}
 
-\item{use_c}{boolean, 0 if the R implementation for calculating W should be used or 1 if the Rcpp implentation should be used}
+\item{use_c}{whether or not to use Rcpp to calculate W; boolean, 0
+corresponding to R implentation and 1 corresponding toRcpp implementation}
 }
 \value{
 w_p a list containing the W test statistic and p-value
 }
 \description{
-This function calculates the W test statistic and p-value for the Royston approach for the Shapiro-Wilk test. The Royston approach uses formulas to determine the value of the test statistic
+This function calculates the W test statistic and p-value for the Royston
+approach for the Shapiro-Wilk test. The Royston approach uses formulas to
+determine the value of the test statistic
 }
 \examples{
 royston_sw (1:60)
