@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# checknormality
+# checknormality: because you should always check your assumptions
 
 <!-- badges: start -->
 
@@ -73,25 +73,25 @@ checknormality::sw_test (set1, "original")
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set1
-#> W = 0.77896, p-value = 0.001
+#> W = 0.87312, p-value = 0.001
 checknormality::sw_test (set1, "modified")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set1
-#> W = 0.77896, p-value = 0.001
+#> W = 0.87312, p-value = 0.001
 checknormality::sw_test (set1, "royston")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set1
-#> W = 0.77756, p-value = 3e-05
+#> W = 0.87723, p-value = 0.00244
 stats::shapiro.test (set1) 
 #> 
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set1
-#> W = 0.77793, p-value = 2.664e-05
+#> W = 0.8769, p-value = 0.002394
 plot(density (set1))
 ```
 
@@ -106,25 +106,25 @@ checknormality::sw_test (set2, "original")
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set2
-#> W = 0.95521, p-value = 0.2099
+#> W = 0.98307, p-value = 0.8412
 checknormality::sw_test (set2, "modified")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set2
-#> W = 0.95521, p-value = 0.2099
+#> W = 0.98307, p-value = 0.8412
 checknormality::sw_test (set2, "royston")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set2
-#> W = 0.95829, p-value = 0.1464
+#> W = 0.98638, p-value = 0.9038
 stats::shapiro.test (set2)
 #> 
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set2
-#> W = 0.95814, p-value = 0.1447
+#> W = 0.98424, p-value = 0.8403
 plot(density (set2))   
 ```
 
@@ -142,13 +142,13 @@ checknormality::sw_test (set3, "royston")
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set3
-#> W = 0.79618, p-value < 2.2e-16
+#> W = 0.78943, p-value < 2.2e-16
 stats::shapiro.test (set3)
 #> 
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set3
-#> W = 0.79618, p-value < 2.2e-16
+#> W = 0.7895, p-value < 2.2e-16
 plot(density (set3))   
 ```
 
@@ -166,13 +166,13 @@ checknormality::sw_test (set4, "royston")
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set4
-#> W = 0.99937, p-value = 0.1967
+#> W = 0.99965, p-value = 0.7493
 stats::shapiro.test (set4)
 #> 
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set4
-#> W = 0.99937, p-value = 0.1966
+#> W = 0.99973, p-value = 0.9026
 plot(density (set4))   
 ```
 
