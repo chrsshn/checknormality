@@ -23,7 +23,8 @@ Imports:
     AppliedPredictiveModeling,
     ggplot2,
     tidyr,
-    car
+    car,
+    dplyr
 LinkingTo: 
     Rcpp
 VignetteBuilder: knitr

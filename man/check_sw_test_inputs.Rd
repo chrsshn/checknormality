@@ -7,7 +7,7 @@
 check_sw_test_inputs(vec_value, approach)
 }
 \arguments{
-\item{vec_value}{numeric vector containing data points, of type integer or double}
+\item{vec_value}{integer containing data points, of type integer or double}
 
 \item{approach}{character, one of "original", "modified", or "royston"}
 }

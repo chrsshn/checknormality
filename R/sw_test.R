@@ -2,10 +2,10 @@
 #'
 #' This function checks that the parameters for a sw_test call are acceptable. When parameters are not acceptable, errors are thrown. When parameters need minor adjustments, warnings are thrown.
 #'
-#' @param vec_value vector containing data points, of type integer or double
+#' @param vec_value integer containing data points, of type integer or double
 #' @param approach character, one of "original", "modified", or "royston"
-#'
 #' @return approach_to_use is the recommended approach and may not be identical to what the user initially chose
+#' @export
 #'
 #' @examples
 #' check_sw_test_inputs (1:60, "royston")
@@ -174,6 +174,9 @@ royston_sw <- function (vec_value, use_c = T) {
 #'
 #' This function uses the Shapiro-Wilk to determine whether a set of data points is normally distributed. There are three approaches: original, modified, or Royston. For an explanation of the different uses of the approaches, look at the Readme file under "A Note on the Algorithms". The null hypothesis is that the data is normally distributed, and the alternative hypothesis is that the data is not normally distributed. Note that it is recommended to use the Shapiro-Wilk test for n < 5000 data points because the test is sensitive to detecting non-normality, and a tactic to use for n > 5000 data points is to take a random sample of n = 5000 data points and run the Shapiro-Wilk test on the sample.
 #'
+#'
+#' @useDynLib checknormality, .registration = TRUE
+#' @importFrom Rcpp evalCpp
 #' @param vec_value numeric vector containing data points, of type integer or double
 #' @param approach character, one of "original", "modified", or "royston"
 #' @param use_c boolean, 0 if the R implementation for calculating W should be used or 1 if the Rcpp implentation should be used

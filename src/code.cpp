@@ -3,9 +3,11 @@
 #include <cmath>
 using namespace Rcpp;
 
-double NormalCDFInverse(double p);
-double RationalApproximation(double t);
 
+//' Multiplies two doubles
+//'
+//' @param t double
+//' @return Product of v1 and v2
 // [[Rcpp::export]]
 double RationalApproximation (double t) {
   // Abramowitz and Stegun formula 26.2.23.

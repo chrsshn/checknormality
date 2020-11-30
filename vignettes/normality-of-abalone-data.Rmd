@@ -75,8 +75,8 @@ $$ Age_i = \beta_0 + \beta_1TypeF_i + \beta_2TypeM_i + \beta_3Diameter_i + \beta
 ### step 3: estimate model parameters
 ``` {r}
 dat_for_lm <- dat %>% 
-  select (Rings, Type, Diameter, Height, LongestShell, WholeWeight) %>%
-  mutate (Age = Rings + 1.5,
+  dplyr::select (Rings, Type, Diameter, Height, LongestShell, WholeWeight) %>%
+  dplyr::mutate (Age = Rings + 1.5,
           Type = factor (Type, levels = c("I", "F", "M")),
           Diameter = Diameter - median (Diameter),
           Height = Height - median (Height),
