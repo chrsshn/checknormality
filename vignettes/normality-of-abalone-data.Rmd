@@ -8,7 +8,7 @@ vignette: >
 ---
   
   
-  ```{r, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
 collapse = TRUE,
 comment = "#>"
@@ -61,6 +61,7 @@ dat_with_labels %>%
   theme_bw()
 
 ```
+
 From these histograms, we can make several observations:
 * abalone of Type 'Infant' seem to be significantly different in almost every measurement variable than Types 'Female' and 'Male'
 * abalone of Type 'Infant' seem to have normally distributed Diameter and LongestShell
@@ -91,10 +92,10 @@ summary(lin_reg)
 * There may be non-linear associations between covariates and the outcome, but we will go ahead and check linearity assumptions of a multiple linear regression.
 
 ### step 4: check linearity assumptions
-#### the beta coefficients in our model are linear with respect to the outcome
-(see model above)
+#### check that the beta coefficients in our model are linear with respect to the outcome
+(see model above to confirm this)
 
-#### the residuals are normally distributed
+#### check that the residuals are normally distributed
 ``` {r }
 dat_with_residuals <- cbind (dat_for_lm, 
                              res = lin_reg$residuals,
@@ -108,8 +109,6 @@ ggplot(data = dat_with_residuals) +
   labs (title = "QQ Plot of Residuals") +
   theme_bw()
 
-
-
 #Histogram
 ggplot (data = dat_with_residuals, aes (x = res, color = Type, fill = Type)) +
   geom_histogram(aes (y = ..density..), alpha = 0.5, position = "identity") +
@@ -117,23 +116,21 @@ ggplot (data = dat_with_residuals, aes (x = res, color = Type, fill = Type)) +
   labs (title = "Histogram of Residuals") +
   theme_bw()
 
-summary (lin_reg$residuals)
+#Shapiro-Wilk test
 sw_test (lin_reg$residuals)
-
-
-
 ```
-Visually we would be a little suspect of the normality of the residuals, but the Shapiro-Wilk Test assures that the residuals can be considered normal
+Visually we would be a little suspect of the normality of the residuals, and the Shapiro-Wilk Test confirms that the residuals are not normal
 
-#### the residuals are homoskedastic
+#### check that the residuals are homoskedastic
 ``` {r }
+#Breusch-Pagan test
 car::ncvTest (lin_reg)
-
 ```
 The Breusch-Pagan test rejects the hypothesis that the data is homoskedastic
 
-#### the residuals are independent of each other
+#### check that the residuals are independent of each other
 ``` {r }
+#Residuals vs. Fitted Plot
 ggplot (data = dat_with_residuals) +
   geom_point (aes (x = yhat, y = res)) +
   labs (title = "Residuals vs. Fitted Values") +
@@ -141,6 +138,7 @@ ggplot (data = dat_with_residuals) +
   ylab ("Residuals") +
   theme_bw()
 
+#Residuals vs. Order Plot
 ggplot (data = dat_with_residuals %>% dplyr::mutate (order = row_number())) +
   geom_point (aes (x = order, y = res)) +
   labs (title = "Residuals vs. Order") +
@@ -148,8 +146,10 @@ ggplot (data = dat_with_residuals %>% dplyr::mutate (order = row_number())) +
   ylab ("Residuals") +
   theme_bw()
 
-
 ```
 From the Residuals vs. Fitted plot, we can clearly see some outliers. Because the residuals are not well distributed around 0, we are further suspicious that the variance of the residuals is not constant. 
 
 From the Residuals vs. Order plot, we see 4 "jumps" in the data which suggests that there may be serial correlation.
+
+### next steps
+Next steps for this analysis would be to check the outliers and modify the model to meet normality assumptions for a multiple linear regression model.
