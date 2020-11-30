@@ -5,8 +5,11 @@
 #'
 #' This function was taken from https://www.johndcook.com/blog/cpp_phi_inverse/
 #'
+#'
 #' @param t double
 #' @return Product of v1 and v2
+#'
+#' @export
 RationalApproximation <- function(t) {
     .Call(`_checknormality_RationalApproximation`, t)
 }
@@ -16,6 +19,8 @@ RationalApproximation <- function(t) {
 #' This function was taken from https://www.johndcook.com/blog/cpp_phi_inverse/
 #' @param double p
 #' @return value for which the normal CDF < p
+#'
+#' @export
 NormalCDFInverse <- function(p) {
     .Call(`_checknormality_NormalCDFInverse`, p)
 }
@@ -24,6 +29,8 @@ NormalCDFInverse <- function(p) {
 #'
 #' @param NumericVector x
 #' @return x in ascending order
+#'
+#' @export
 stl_sort <- function(x) {
     .Call(`_checknormality_stl_sort`, x)
 }
@@ -39,6 +46,8 @@ stl_sort <- function(x) {
 #' @param vec_value vector containing data points; integer or double
 #' @return the test statistic for the Shapiro-Wilk test; double, between 0 and
 #' 1
+#'
+#' @export
 #'
 #'
 C_get_W <- function(vec_value) {

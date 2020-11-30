@@ -8,8 +8,11 @@ using namespace Rcpp;
 //'
 //' This function was taken from https://www.johndcook.com/blog/cpp_phi_inverse/
 //'
+//'
 //' @param t double
 //' @return Product of v1 and v2
+//'
+//' @export
 // [[Rcpp::export]]
 double RationalApproximation (double t) {
   // Abramowitz and Stegun formula 26.2.23.
@@ -25,6 +28,8 @@ double RationalApproximation (double t) {
 //' This function was taken from https://www.johndcook.com/blog/cpp_phi_inverse/
 //' @param double p
 //' @return value for which the normal CDF < p
+//'
+//' @export
 // [[Rcpp::export]]
 double NormalCDFInverse(double p) {
   if (p <= 0.0 || p >= 1.0) {
@@ -48,6 +53,8 @@ double NormalCDFInverse(double p) {
 //'
 //' @param NumericVector x
 //' @return x in ascending order
+//'
+//' @export
 // [[Rcpp::export]]
 NumericVector stl_sort (NumericVector x) {
   NumericVector y = clone(x);
@@ -66,6 +73,8 @@ NumericVector stl_sort (NumericVector x) {
 //' @param vec_value vector containing data points; integer or double
 //' @return the test statistic for the Shapiro-Wilk test; double, between 0 and
 //' 1
+//'
+//' @export
 //'
 //'
 // [[Rcpp::export]]
