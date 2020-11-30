@@ -23,54 +23,71 @@ status](https://travis-ci.com/chrsshn/checknormality.svg?branch=main)](https://t
 coverage](https://codecov.io/gh/chrsshn/checknormality/branch/main/graph/badge.svg)](https://codecov.io/gh/chrsshn/checknormality?branch=main)
 <!-- badges: end -->
 
-The goal of checknormality is to provide an implementation of popular normality tests that returns the test statistics from various normality tests. Comparable versions of the Shapiro-Wilk test and the Kolmogorov-Smirnov test are accessible through the base stats package (base::shapiro.test and base::ks.test, respectively). As of 2020/11/28, only the 
+## Overview
+The goal of checknormality is to provide implementations of popular normality tests that returns the test statistics and p-values. As of 2020/11/30, the package contains an implementation of the [Shapiro-Wilk Test of Normality](https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test).
 
 ## A Note on the Algorithms
 
 ### Shapiro-Wilk Test
-- For n > 50, the J. P. Royston approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/) must be used
+- For n > 50, the J. P. Royston approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-expanded-test/) must be used.
 
-- For  3 <= n <= 50, there are three "options": the original approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/), a modified approach that is compatible with the Royston approach as described in the last paragraph [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/), and the Royston approach for n > 20
+- For 3 <= n <= 50, there are three "approaches": the original approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/), a modified approach that is compatible with the Royston approach as described in the last paragraph [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/), and the Royston approach for n > 20.
 
 ### Inverse of Normal CDF (Phi inverse)
-- The Royston approach requires the inverse of the normal CDF, which is called in R with stats::qnorm(p)
-- In the Rcpp implementation of the Royston approach, a [freely-available stand-alone C++ implementation](https://www.johndcook.com/blog/cpp_phi_inverse/) was used
+- The Royston approach requires the inverse of the normal CDF, which is calculated in R using
+``` r
+stats::qnorm(p)
+```
+- In the Rcpp implementation of the Royston approach, a [freely-available stand-alone C++ implementation](https://www.johndcook.com/blog/cpp_phi_inverse/) was used.
 
 
 ## Installation
 
-You can install the released version of checknormality from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("checknormality")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("chrsshn/checknormality")
 ```
-
-## Example 1: Testing a sample from a normal distribution using the Royston and modified approaches
+## Usage
+### Example 1: Testing a small sample from an exponential distribution using the original, modified, and Royston approaches
 ```{r echo=TRUE, eval = T}
-library (checknormality)
-set1 <- rnorm (30, 0, 1)
-shapiro.test (set1)
-sw_test (set1, "royston")
-sw_test (set1, "modified")
+set1 <- rexp (30, .8)
+checknormality::sw_test (set1, "original")
+checknormality::sw_test (set1, "modified")
+checknormality::sw_test (set1, "royston")
+stats::shapiro.test (set1) 
 plot(density (set1))
 ```
 
-## Example 2: Testing a sample from a non-normal distribution using the Royston and modified approaches
+### Example 2: Testing a small sample from a normal distribution using the original, modified, and Royston approaches
 ``` {r echo = T, eval = T}
-library (checknormality)
-set2 <- rpois(40, .787)
-shapiro.test (set2)
-sw_test (set2, "royston")
-sw_test (set2, "modified")
+set2 <- rnorm (40, 20, 5)
+checknormality::sw_test (set2, "original")
+checknormality::sw_test (set2, "modified")
+checknormality::sw_test (set2, "royston")
+stats::shapiro.test (set2)
 plot(density (set2))   
+ 
+```
+
+### Example 3: Testing a large sample from a Poisson distribution using the Royston approach
+note: the original and modified approaches are only valid for n < 50 points
+``` {r echo = T, eval = T}
+set3 <- rpois(4000, .787)
+checknormality::sw_test (set3, "royston")
+stats::shapiro.test (set3)
+plot(density (set3))   
+ 
+```
+
+## Example 4: Testing a large sample from a normal distribution using the Royston approach
+note: the original and modified approaches are only valid for n < 50 points
+``` {r echo = T, eval = T}
+set4 <- rnorm(4000)
+checknormality::sw_test (set4, "royston")
+stats::shapiro.test (set4)
+plot(density (set4))   
  
 ```
 

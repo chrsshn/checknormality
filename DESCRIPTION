@@ -23,7 +23,6 @@ Imports:
     AppliedPredictiveModeling,
     ggplot2,
     tidyr,
-    tableone,
     car
 LinkingTo: 
     Rcpp

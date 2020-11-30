@@ -15,13 +15,11 @@ check_sw_test_inputs <- function (vec_value, approach) {
   if (!(typeof (vec_value) %in% valid_vec_type) )
     stop ('Error: the data structure for vec_value must be a vector of type integer or double')
 
-
   #check that the approach is a valid option
   valid_approach_value = c("original", "modified", "royston")
 
   if (!(approach %in% valid_approach_value))
     stop ('Error: the test approach is invalid')
-
 
   #check that number of data points is valid for the approach of the test
   n <- length (vec_value)
@@ -189,10 +187,10 @@ royston_sw <- function (vec_value, use_c = F) {
 #' sw_test (rnorm(10, 0, 1))
 #'
 sw_test <- function (vec_value, approach = "royston") {
-  check_sw_test_inputs (vec_value, approach)
+  actual_approach = check_sw_test_inputs (vec_value, approach)
 
-  if (approach %in% c("original", "modified"))
-    test_statistic = original_sw (vec_value, approach)
+  if (actual_approach %in% c("original", "modified"))
+    test_statistic = original_sw (vec_value, actual_approach)
   else
     test_statistic = royston_sw (vec_value)
 
