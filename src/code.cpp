@@ -4,7 +4,9 @@
 using namespace Rcpp;
 
 
-//' Multiplies two doubles
+//' Calculates the Rational Approximation
+//'
+//' This function was taken from https://www.johndcook.com/blog/cpp_phi_inverse/
 //'
 //' @param t double
 //' @return Product of v1 and v2
@@ -18,6 +20,11 @@ double RationalApproximation (double t) {
     (((d[2]*t + d[1])*t + d[0])*t + 1.0);
 }
 
+//' Calculates the Normal CDF Inverse
+//'
+//' This function was taken from https://www.johndcook.com/blog/cpp_phi_inverse/
+//' @param double p
+//' @return value for which the normal CDF < p
 // [[Rcpp::export]]
 double NormalCDFInverse(double p) {
   if (p <= 0.0 || p >= 1.0) {
@@ -37,7 +44,10 @@ double NormalCDFInverse(double p) {
   }
 }
 
-
+//' Sorts a vector in ascending order
+//'
+//' @param NumericVector x
+//' @return x in ascending order
 // [[Rcpp::export]]
 NumericVector stl_sort (NumericVector x) {
   NumericVector y = clone(x);
@@ -45,6 +55,21 @@ NumericVector stl_sort (NumericVector x) {
   return y;
 }
 
+//' Calculate the W statistic for the Royston approach (implemented in Rcpp)
+//'
+//' This function calculates the W test statistic for the Royston approach for
+//' the Shapiro-Wilk test. This function is comparable to the R implementation
+//' of the Royston approach (which can be found in the R folder). For a
+//' step-by-step explanation of this function, look at the Readme file under
+//' "A Note on the Algorithms".
+//'
+//' @param vec_value vector containing data points; integer or double
+//' @return the test statistic for the Shapiro-Wilk test; double, between 0 and
+//' 1
+//'
+//' @examples
+//' C_get_W(1:10)
+//'
 // [[Rcpp::export]]
 double C_get_W (NumericVector vec_value) {
   int n = vec_value.size();
@@ -57,7 +82,6 @@ double C_get_W (NumericVector vec_value) {
   }
 
   double u = 1.0/sqrt (n);
-
 
   NumericVector dat_coef(n);
   dat_coef[n - 1] = -2.706056*pow (u, 5) +
@@ -83,24 +107,18 @@ double C_get_W (NumericVector vec_value) {
       (1 - (2 *pow( dat_coef[n-1],2)) - (2 * pow( dat_coef[n-2],2)));
 
     dat_coef[i] = m_vec[i]/sqrt (epsilon);
-
   }
 
   double numerator = 0;
   double denominator = 0;
   NumericVector sorted_vec_value = stl_sort (vec_value);
+
   for (int i = 0; i < n; i++) {
     numerator += dat_coef[i] * sorted_vec_value[i];
     denominator += pow (sorted_vec_value[i] - mean(vec_value),2);
-
-
   }
-
 
   double W = pow (numerator, 2)/denominator;
 
   return W;
-
-
-
 }
