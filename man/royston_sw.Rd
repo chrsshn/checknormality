@@ -4,10 +4,12 @@
 \alias{royston_sw}
 \title{Implement the Royston approach for the Shapiro-Wilk test}
 \usage{
-royston_sw(vec_value)
+royston_sw(vec_value, use_c = F)
 }
 \arguments{
 \item{vec_value}{double}
+
+\item{use_c}{boolean}
 }
 \value{
 w_p list containing the W test-statistic and p-value

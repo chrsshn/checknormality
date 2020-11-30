@@ -32,6 +32,10 @@ The goal of checknormality is to provide an implementation of popular normality 
 
 - For  3 <= n <= 50, there are three "options": the original approach for the Shapiro-Wilk test as described [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/), a modified approach that is compatible with the Royston approach as described in the last paragraph [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/), and the Royston approach for n > 20
 
+### Inverse of Normal CDF (Phi inverse)
+- The Royston approach requires the inverse of the normal CDF, which is called in R with stats::qnorm(p)
+- In the Rcpp implementation of the Royston approach, a [freely-available stand-alone C++ implementation](https://www.johndcook.com/blog/cpp_phi_inverse/) was used
+
 
 ## Installation
 

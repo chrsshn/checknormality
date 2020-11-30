@@ -35,6 +35,15 @@ only the
     [here](https://www.real-statistics.com/tests-normality-and-symmetry/statistical-tests-normality-symmetry/shapiro-wilk-test/),
     and the Royston approach for n \> 20
 
+### Inverse of Normal CDF (Phi inverse)
+
+  - The Royston approach requires the inverse of the normal CDF, which
+    is called in R with stats::qnorm(p)
+  - In the Rcpp implementation of the Royston approach, a
+    [freely-available stand-alone C++
+    implementation](https://www.johndcook.com/blog/cpp_phi_inverse/) was
+    used
+
 ## Installation
 
 You can install the released version of checknormality from
@@ -61,19 +70,19 @@ shapiro.test (set1)
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set1
-#> W = 0.98006, p-value = 0.8272
+#> W = 0.97869, p-value = 0.7898
 sw_test (set1, "royston")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set1
-#> W = 0.98024, p-value = 0.8318
+#> W = 0.97846, p-value = 0.7833
 sw_test (set1, "modified")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set1
-#> W = 0.97937, p-value = 0.8104
+#> W = 0.97696, p-value = 0.7507
 plot(density (set1))
 ```
 
@@ -89,19 +98,19 @@ shapiro.test (set2)
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set2
-#> W = 0.83773, p-value = 4.594e-05
+#> W = 0.81949, p-value = 1.772e-05
 sw_test (set2, "royston")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set2
-#> W = 0.83827, p-value = 5e-05
+#> W = 0.8204, p-value = 2e-05
 sw_test (set2, "modified")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set2
-#> W = 0.8278, p-value = 0.001
+#> W = 0.81529, p-value = 0.001
 plot(density (set2))
 ```
 

@@ -87,20 +87,18 @@ original_sw <- function (vec_value, approach = "modified"){
   return (list (W, p_val))
 }
 
-
-#' Implement the Royston approach for the Shapiro-Wilk test
+#' Get the W statistic for the Royston approach (implemented in R)
 #'
-#' @param vec_value double
+#' @param vec_value
 #'
-#' @return w_p list containing the W test-statistic and p-value
+#' @return W
 #' @export
 #'
 #' @examples
-#' royston_sw (1:60)
-royston_sw <- function (vec_value) {
+#' R_get_W (1:10)
+R_get_W <- function (vec_value) {
   n <- length (vec_value)
 
-  dat_value <- data.frame (original = vec_value, sorted = sort (vec_value))
 
   m_vec <- rep (0, n)
 
@@ -138,7 +136,31 @@ royston_sw <- function (vec_value) {
 
   }
 
-  W = (stats::cor (as.matrix (cbind (dat_value$sorted, dat_coef)))[1,2])^2
+  W = (stats::cor (as.matrix (cbind (sort (vec_value), dat_coef)))[1,2])^2
+
+  return (W)
+
+}
+
+
+#' Implement the Royston approach for the Shapiro-Wilk test
+#'
+#' @param vec_value double
+#' @param use_c boolean
+#'
+#' @return w_p list containing the W test-statistic and p-value
+#' @export
+#'
+#' @examples
+#' royston_sw (1:60)
+royston_sw <- function (vec_value, use_c = F) {
+  if (use_c)
+    W = C_get_W (vec_value)
+  else
+    W = R_get_W (vec_value)
+
+  n <- length(vec_value)
+
 
   mu = 0.0038915 * log(n)^3 - 0.083751 * log(n)^2 - 0.31082*log(n) - 1.5861
 
