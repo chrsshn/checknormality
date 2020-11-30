@@ -70,19 +70,19 @@ shapiro.test (set1)
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set1
-#> W = 0.97869, p-value = 0.7898
+#> W = 0.96569, p-value = 0.4289
 sw_test (set1, "royston")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set1
-#> W = 0.97846, p-value = 0.7833
+#> W = 0.96605, p-value = 0.4375
 sw_test (set1, "modified")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set1
-#> W = 0.97696, p-value = 0.7507
+#> W = 0.96215, p-value = 0.4324
 plot(density (set1))
 ```
 
@@ -98,19 +98,19 @@ shapiro.test (set2)
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  set2
-#> W = 0.81949, p-value = 1.772e-05
+#> W = 0.79535, p-value = 5.427e-06
 sw_test (set2, "royston")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set2
-#> W = 0.8204, p-value = 2e-05
+#> W = 0.79492, p-value = 1e-05
 sw_test (set2, "modified")
 #> 
 #>  Shapiro-Wilk Test of Normality
 #> 
 #> data:  set2
-#> W = 0.81529, p-value = 0.001
+#> W = 0.79026, p-value = 0.001
 plot(density (set2))
 ```
 

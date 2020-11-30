@@ -89,7 +89,7 @@ original_sw <- function (vec_value, approach = "modified"){
 
 #' Get the W statistic for the Royston approach (implemented in R)
 #'
-#' @param vec_value
+#' @param vec_value double
 #'
 #' @return W
 #' @export

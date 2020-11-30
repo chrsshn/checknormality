@@ -7,7 +7,7 @@
 R_get_W(vec_value)
 }
 \arguments{
-\item{vec_value}{}
+\item{vec_value}{double}
 }
 \value{
 W

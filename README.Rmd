@@ -70,6 +70,7 @@ set2 <- rpois(40, .787)
 shapiro.test (set2)
 sw_test (set2, "royston")
 sw_test (set2, "modified")
-plot(density (set2))
+plot(density (set2))   
+ 
 ```
 
