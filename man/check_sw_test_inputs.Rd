@@ -7,15 +7,15 @@
 check_sw_test_inputs(vec_value, approach)
 }
 \arguments{
-\item{vec_value}{vector}
+\item{vec_value}{numeric vector containing data points, of type integer or double}
 
-\item{approach}{character}
+\item{approach}{character, one of "original", "modified", or "royston"}
 }
 \value{
-approach_to_use
+approach_to_use is the recommended approach and may not be identical to what the user initially chose
 }
 \description{
-Check for valid parameters for a sw_test call
+This function checks that the parameters for a sw_test call are acceptable. When parameters are not acceptable, errors are thrown. When parameters need minor adjustments, warnings are thrown.
 }
 \examples{
 check_sw_test_inputs (1:60, "royston")

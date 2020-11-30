@@ -2,18 +2,18 @@
 % Please edit documentation in R/sw_test.R
 \name{R_get_W}
 \alias{R_get_W}
-\title{Get the W statistic for the Royston approach (implemented in R)}
+\title{Calculate the W statistic for the Royston approach (implemented in R)}
 \usage{
 R_get_W(vec_value)
 }
 \arguments{
-\item{vec_value}{double}
+\item{vec_value}{numeric vector containing data points, of type integer or double}
 }
 \value{
-W
+W double, the Shapiro-Wilk test statistic ranging from 0 to 1
 }
 \description{
-Get the W statistic for the Royston approach (implemented in R)
+This function calculates the W test statistic for the Royston approach for the Shapiro-Wilk test. This function is comparable to the Rcpp implementation of the Royston approach (which can be found in the src folder). For a step-by-step explanation of this function, look at the Readme file under "A Note on the Algorithms".
 }
 \examples{
 R_get_W (1:10)

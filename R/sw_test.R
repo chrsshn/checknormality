@@ -1,10 +1,11 @@
 #' Check for valid parameters for a sw_test call
 #'
-#' @param vec_value vector
-#' @param approach character
+#' This function checks that the parameters for a sw_test call are acceptable. When parameters are not acceptable, errors are thrown. When parameters need minor adjustments, warnings are thrown.
 #'
-#' @return approach_to_use
-#' @export
+#' @param vec_value numeric vector containing data points, of type integer or double
+#' @param approach character, one of "original", "modified", or "royston"
+#'
+#' @return approach_to_use is the recommended approach and may not be identical to what the user initially chose
 #'
 #' @examples
 #' check_sw_test_inputs (1:60, "royston")
@@ -28,7 +29,7 @@ check_sw_test_inputs <- function (vec_value, approach) {
   if (n < 3) {
     stop ('Error: the number of data points is too small')
   } else if (n > 5000) {
-    stop ('Error: the number of data points is too large for this implementation of the Shapiro-Wilk test')
+    warning ('Warning: the number of data points is very large, and the result of the Shapiro-Wilk test may detect trivial non-normality in the data')
   } else if ((n < 20) & approach == "royston"){
     warning ('Warning: the Royston approach of the test requires at least 20 data points, and the modified approach will be used')
     approach_to_use = "modified"
@@ -41,12 +42,14 @@ check_sw_test_inputs <- function (vec_value, approach) {
 }
 
 
-#' Implement the original and modified approaches for the Shapiro-Wilk test
+#' Implementation of the original and modified approaches for the Shapiro-Wilk test
 #'
-#' @param vec_value double
-#' @param approach character
+#' This function calculates the W test statistic and p-value for the original and modified approaches for the Shapiro-Wilk test. The original and modified approaches use the Shapiro-Wilk coefficient table (which can be found in the data-raw folder) to determine the value of the test statistic
 #'
-#' @return w_p list containing the W test-statistic and p-value
+#' @param vec_value numeric vector containing data points, of type integer or double
+#' @param approach character, one of "original" or "modified"
+#'
+#' @return w_p a list containing the W test statistic and p-value
 #' @export
 #'
 #' @examples
@@ -85,18 +88,19 @@ original_sw <- function (vec_value, approach = "modified"){
   return (list (W, p_val))
 }
 
-#' Get the W statistic for the Royston approach (implemented in R)
+#' Calculate the W statistic for the Royston approach (implemented in R)
 #'
-#' @param vec_value double
+#' This function calculates the W test statistic for the Royston approach for the Shapiro-Wilk test. This function is comparable to the Rcpp implementation of the Royston approach (which can be found in the src folder). For a step-by-step explanation of this function, look at the Readme file under "A Note on the Algorithms".
 #'
-#' @return W
+#' @param vec_value numeric vector containing data points, of type integer or double
+#'
+#' @return W double, the Shapiro-Wilk test statistic ranging from 0 to 1
 #' @export
 #'
 #' @examples
 #' R_get_W (1:10)
 R_get_W <- function (vec_value) {
   n <- length (vec_value)
-
 
   m_vec <- rep (0, n)
 
@@ -106,59 +110,52 @@ R_get_W <- function (vec_value) {
 
   m_val <- sum(m_vec * m_vec)
 
-  u <- 1/sqrt(n)
+  u <- 1 / sqrt(n)
 
   dat_coef <- rep (0, n)
-  dat_coef[n] = -2.706056*u^5 +
-    4.434685*u^4 -
-    2.2071190*u^3 -
-    0.147981*u^2 +
-    0.221157*u +
+
+  dat_coef[n] = -2.706056*u^5 + 4.434685*u^4 - 2.2071190*u^3 - 0.147981*u^2 + 0.221157*u +
     m_vec[n] * m_val^(-0.5)
 
   dat_coef[1] = -1 * dat_coef[n]
 
-  dat_coef[n-1] = -3.582633*u^5 +
-    5.682633*u^4 -
-    1.752461*u^3 -
-    0.293762*u^2 +
-    0.042981*u +
-    m_vec[n-1] * m_val^(-0.5)
+  dat_coef[n - 1] = -3.582633*u^5 + 5.682633*u^4 - 1.752461*u^3 - 0.293762*u^2 + 0.042981*u +
+    m_vec[n - 1] * m_val^(-0.5)
 
-  dat_coef[2] = -1 * dat_coef[n-1]
+  dat_coef[2] = -1 * dat_coef[n - 1]
 
-  for (i in 2:(n-1)) {
-    epsilon = (m_val - (2*m_vec[n]^2) - (2*m_vec[n-1]^2)) / (1 - (2 * dat_coef[n]^2) - (2 * dat_coef[n-1]^2))
+  for (i in 2:(n - 1)) {
+    epsilon = (m_val - (2*m_vec[n]^2) - (2*m_vec[n - 1]^2)) /
+      (1 - (2 * dat_coef[n]^2) - (2 * dat_coef[n - 1]^2))
 
     dat_coef[i] = m_vec[i]/sqrt (epsilon)
-
   }
 
   W = (stats::cor (as.matrix (cbind (sort (vec_value), dat_coef)))[1,2])^2
 
   return (W)
-
 }
 
 
-#' Implement the Royston approach for the Shapiro-Wilk test
+#' Implementation of the Royston approach for the Shapiro-Wilk test
 #'
-#' @param vec_value double
-#' @param use_c boolean
+#' This function calculates the W test statistic and p-value for the Royston approach for the Shapiro-Wilk test. The Royston approach uses formulas to determine the value of the test statistic
 #'
-#' @return w_p list containing the W test-statistic and p-value
+#' @param vec_value numeric vector containing data points, of type integer or double
+#' @param use_c boolean, 0 if the R implementation for calculating W should be used or 1 if the Rcpp implentation should be used
+#'
+#' @return w_p a list containing the W test statistic and p-value
 #' @export
 #'
 #' @examples
 #' royston_sw (1:60)
-royston_sw <- function (vec_value, use_c = F) {
+royston_sw <- function (vec_value, use_c = T) {
   if (use_c)
     W = C_get_W (vec_value)
   else
     W = R_get_W (vec_value)
 
   n <- length(vec_value)
-
 
   mu = 0.0038915 * log(n)^3 - 0.083751 * log(n)^2 - 0.31082*log(n) - 1.5861
 
@@ -175,30 +172,33 @@ royston_sw <- function (vec_value, use_c = F) {
 
 #' Shapiro-Wilk Test
 #'
-#' Test the normality of a vector using either the original, modified original, or Royston approach of the Shapiro-Wilk test
+#' This function uses the Shapiro-Wilk to determine whether a set of data points is normally distributed. There are three approaches: original, modified, or Royston. For an explanation of the different uses of the approaches, look at the Readme file under "A Note on the Algorithms". The null hypothesis is that the data is normally distributed, and the alternative hypothesis is that the data is not normally distributed. Note that it is recommended to use the Shapiro-Wilk test for n < 5000 data points because the test is sensitive to detecting non-normality, and a tactic to use for n > 5000 data points is to take a random sample of n = 5000 data points and run the Shapiro-Wilk test on the sample.
 #'
-#' @param vec_value vector
-#' @param approach character
+#' @param vec_value numeric vector containing data points, of type integer or double
+#' @param approach character, one of "original", "modified", or "royston"
+#' @param use_c boolean, 0 if the R implementation for calculating W should be used or 1 if the Rcpp implentation should be used
 #'
-#' @return p_value
+#' @return toreturn, an object of class "htest" containing the results of the Shapiro-Wilk test
 #' @export
 #'
 #' @examples
 #' sw_test (rnorm(10, 0, 1))
 #'
-sw_test <- function (vec_value, approach = "royston") {
+sw_test <- function (vec_value, approach = "royston", use_c = F) {
   actual_approach = check_sw_test_inputs (vec_value, approach)
 
   if (actual_approach %in% c("original", "modified"))
     test_statistic = original_sw (vec_value, actual_approach)
   else
-    test_statistic = royston_sw (vec_value)
+    test_statistic = royston_sw (vec_value, use_c)
 
   toreturn <- list (statistic = c(W = round (test_statistic[[1]], 5)),
                     p.value = round (test_statistic[[2]], 5),
                     method = "Shapiro-Wilk Test of Normality",
                     data.name = deparse(substitute(vec_value)))
+
   class (toreturn) <- "htest"
+
   return (toreturn)
 
 }

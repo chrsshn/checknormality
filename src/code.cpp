@@ -3,6 +3,8 @@
 #include <cmath>
 using namespace Rcpp;
 
+double NormalCDFInverse(double p);
+double RationalApproximation(double t);
 
 // [[Rcpp::export]]
 double RationalApproximation (double t) {
@@ -64,26 +66,26 @@ double C_get_W (NumericVector vec_value) {
     0.042981*u +
     m_vec[n-2] * pow (m_val,-0.5);
 
-    dat_coef[1] = -1 * dat_coef[n-2];
+  dat_coef[1] = -1 * dat_coef[n-2];
 
-    for (int i = 1; i < n-2; i++) {
-      double epsilon = (m_val - (2*pow(m_vec[n-1],2)) - (2*pow(m_vec[n-2],2))) /
-        (1 - (2 *pow( dat_coef[n-1],2)) - (2 * pow( dat_coef[n-2],2)));
+  for (int i = 1; i < n-2; i++) {
+    double epsilon = (m_val - (2*pow(m_vec[n-1],2)) - (2*pow(m_vec[n-2],2))) /
+      (1 - (2 *pow( dat_coef[n-1],2)) - (2 * pow( dat_coef[n-2],2)));
 
-      dat_coef[i] = m_vec[i]/sqrt (epsilon);
+    dat_coef[i] = m_vec[i]/sqrt (epsilon);
 
-    }
+  }
 
-    double numerator = 0;
-    double denominator = 0;
-    for (int i = 0; i < n; i++) {
-      numerator += dat_coef[i] * vec_value[i];
-      denominator += pow (vec_value[i] - mean(vec_value),2);
+  double numerator = 0;
+  double denominator = 0;
+  for (int i = 0; i < n; i++) {
+    numerator += dat_coef[i] * vec_value[i];
+    denominator += pow (vec_value[i] - mean(vec_value),2);
 
 
-    }
+  }
 
-    double W = pow (numerator, 2)/denominator;
+  double W = pow (numerator, 2)/denominator;
 
   return W;
 

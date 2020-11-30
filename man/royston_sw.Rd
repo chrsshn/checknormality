@@ -2,20 +2,20 @@
 % Please edit documentation in R/sw_test.R
 \name{royston_sw}
 \alias{royston_sw}
-\title{Implement the Royston approach for the Shapiro-Wilk test}
+\title{Implementation of the Royston approach for the Shapiro-Wilk test}
 \usage{
-royston_sw(vec_value, use_c = F)
+royston_sw(vec_value, use_c = T)
 }
 \arguments{
-\item{vec_value}{double}
+\item{vec_value}{numeric vector containing data points, of type integer or double}
 
-\item{use_c}{boolean}
+\item{use_c}{boolean, 0 if the R implementation for calculating W should be used or 1 if the Rcpp implentation should be used}
 }
 \value{
-w_p list containing the W test-statistic and p-value
+w_p a list containing the W test statistic and p-value
 }
 \description{
-Implement the Royston approach for the Shapiro-Wilk test
+This function calculates the W test statistic and p-value for the Royston approach for the Shapiro-Wilk test. The Royston approach uses formulas to determine the value of the test statistic
 }
 \examples{
 royston_sw (1:60)
