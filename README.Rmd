@@ -50,8 +50,6 @@ You can install the development version from [GitHub](https://github.com/) with:
 devtools::install_github("chrsshn/checknormality")
 ```
 
-
-
 ## Usage
 ### Example 1: Testing a small sample from an exponential distribution using the original, modified, and Royston approaches
 ```{r echo=TRUE, eval = T}

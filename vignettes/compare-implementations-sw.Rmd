@@ -6,15 +6,225 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-###Part 1: Assessing correctness of checknormality
+
+## This vignette will assess the accuracy and efficiency of the checknormality implementations of the Shapiro-Wilk Test
+  
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+collapse = TRUE,
+comment = "#>"
 )
 ```
 
-###Part 2: Assessing efficiency of checknormality
-```{r setup}
+```{r setup, message = F}
 library(checknormality)
+library (bench)
+library (dplyr)
+library (ggbeeswarm)
+set.seed(800)
+
+print_accuracy_results <- function (dat, num) {
+  trial1 <- stats::shapiro.test(dat)
+  trial2 <- sw_test(dat, approach = "original")
+  trial3 <- sw_test(dat, approach = "modified")
+  trial4 <- sw_test(dat, approach = "royston", use_c = F)
+  trial5 <- sw_test(dat, approach = "royston", use_c = T)
+  
+  toprint <- data.frame (
+    description = c("stats", "checknormality_original", "checknormality_modified",
+                    "checknormality_royston_R", "checknormality_royston_Rcpp"),
+    trial_values = c(trial1[[num]], trial2[[num]], trial3[[num]], trial4[[num]], 
+                     trial5[[num]])) 
+  
+  t1 <- rep (toprint$trial_values[1], each = 5)
+  t2 <- toprint$trial_values
+  
+  toreturn <- cbind (toprint, "compared to stats" = mapply (all.equal, t1, t2)) %>%
+    as.data.frame() 
+  
+  return (toreturn)
+}
+
+print_accuracy_results_roy <- function (dat, num) {
+  trial1 <- stats::shapiro.test(dat)
+  trial2 <- sw_test(dat, approach = "royston", use_c = F)
+  trial3 <- sw_test(dat, approach = "royston", use_c = T)
+  
+  toprint <- data.frame (
+    description = c("stats", "checknormality_royston_R", "checknormality_royston_Rcpp"),
+    trial_values = c(trial1[[num]], trial2[[num]], trial3[[num]])) 
+  
+  t1 <- rep (toprint$trial_values[1], each = 3)
+  t2 <- toprint$trial_values
+  
+  toreturn <- cbind (toprint, "compared to stats" = mapply (all.equal, t1, t2)) %>%
+    as.data.frame() 
+  
+  return (toreturn)
+}
+
+print_efficiency_results <- function (dat, num, cutoff) {
+  
+  toreturn <- bench::mark (round (stats::shapiro.test(dat)[[num]], cutoff),
+  round (checknormality::sw_test(dat, approach = "original")[[num]], cutoff),
+  round (checknormality::sw_test(dat, approach = "modified")[[num]], cutoff),
+  round (checknormality::sw_test(dat, approach = "royston", use_c = F)[[num]], cutoff),
+  round (checknormality::sw_test(dat, approach = "royston", use_c = T)[[num]], cutoff))
+  
+  return (toreturn)
+}
+
+print_efficiency_results_roy <- function (dat, num, cutoff) {
+  
+  toreturn <- bench::mark (round (stats::shapiro.test(dat)[[num]], cutoff),
+  round (checknormality::sw_test(dat, approach = "royston", use_c = F)[[num]], cutoff),
+  round (checknormality::sw_test(dat, approach = "royston", use_c = T)[[num]], cutoff))
+  
+  return (toreturn)
+}
 ```
+
+### Small Sample (n = 40)
+#### Assessing accuracy
+``` {r}
+set1 <- rnorm (40, 0, 1)
+
+# to compare the W test statistic
+results1Wa <- print_accuracy_results (set1, 1)
+knitr::kable(results1Wa,
+             caption = "Comparing W Test Statistic Across Implementations")
+
+```
+
+- In this example, we see that none of the checknormality package implementations 
+output the exact W test statistic as the stats package implementation, 
+which means that the calculated p-values will also differ. 
+- The maximum relative difference (calculated as the difference between the 
+"target" (e.g. stats package implementation) and the difference between "target"
+and "current" (e.g. checknormality package implementations)) is 0.0051
+
+``` {r }
+# to compare the p value
+results1Pa <- print_accuracy_results (set1, 2)
+knitr::kable(results1Pa,
+             caption = "Comparing P-Value Across Implementations")
+```
+- Yet again none of the checknormality package implementations output the exact 
+p-value as the stats package implementation
+- It is concerning as the mean relative differences between any implentation 
+comparison range from 0.005 to 0.117, which could determine whether or not you 
+should reject or fail to reject the null hypothesis
+- In this specific example, all of the p-values are well over 0.001, so we would
+make the same decision for all implementations, but it is concerning that the 
+round off error between the approaches is so wide
+
+
+#### Assessing Efficiency
+- Because the outputs of the approaches are not equal, we cannot directly 
+compare values. Therefore I have rounded the W test statistic for each approach 
+before benchmarking.
+```{r, cache = T, fig.width = 8}
+#to compare efficiency
+results1We <- print_efficiency_results(set1, 1, 0.005)
+plot (results1We)
+```
+- The Royston approaches are faster than the original and modified approaches, 
+with the Rcpp implementation being faster than the R implementation
+- The Rccp implementation of the Royston approach from the checknormality 
+package has a faster median time than the stats package implementation
+
+
+### Medium Sample (n = 400, only Royston approach is used)
+#### Assessing accuracy
+``` {r}
+set2 <- rnorm (400, 0, 1)
+
+# to compare the W test statistic
+results2Wa <- print_accuracy_results_roy (set2, 1)
+knitr::kable(results2Wa,
+             caption = "Comparing W Test Statistic Across Implementations")
+
+```
+- In this example, we see that none of the checknormality package 
+implementations output the exact W test statistic as the stats package 
+implementation, which means that the calculated p-values will also differ. 
+- The maximum relative difference between the stats package implementation and 
+any of the checknormality package implementations is 0.0004, which is much less
+than the maximum difference for the small sample (0.0051)
+
+``` {r }
+# to compare the p value
+results2Pa <- print_accuracy_results_roy (set2, 2)
+knitr::kable(results2Pa,
+             caption = "Comparing P-Value Across Implementations")
+```
+- Yet again none of the checknormality package implementations output the exact
+p-value as the stats package implementation
+- It is concerning as the maximum relative difference between the stats package 
+implementation and the checknormality package implementation is 0.026, which could
+determine whether or not you should reject or fail to reject the null hypothesis
+if your value of alpha was between 0.026 and 0.036
+
+```{r, cache = T, fig.width=8}
+#to compare efficiency
+results2We <- print_efficiency_results_roy(set2, 1, 0.0004)
+plot (results2We)
+
+
+```
+- The stats package was faster on average than both of the checknormality 
+package implementations
+
+### Large Sample (n = 4000, only Royston approach is used)
+``` {r}
+set3 <- rnorm (4000, 0, 1)
+
+# to compare the W test statistic
+results3Wa <- print_accuracy_results_roy (set3, 1)
+knitr::kable(results3Wa,
+             caption = "Comparing W Test Statistic Across Implementations")
+
+```
+- In this example, we see that none of the checknormality package implementations 
+output the exact W test statistic as the stats package implementation, 
+which means that the calculated p-values will also differ. 
+- The maximum relative difference between the stats package implementation and 
+any of the checknormality package implentations is 6.65e-5, which is much much 
+less than the maximum difference for the small sample (0.0051) and medium 
+sample (0.004)
+
+``` {r }
+# to compare the p value
+results3Pa <- print_accuracy_results_roy (set3, 2)
+knitr::kable(results3Pa,
+             caption = "Comparing P-Value Across Implementations")
+```
+
+- Yet again none of the checknormality package implementations output the exact 
+p-value as the stats package implementation
+- It is concerning as the maximum relative difference between the stats package 
+implemtation and the checknormality package implementation is 0.026, which could
+determine whether or not you should reject or fail to reject the null hypothesis 
+- In this specific example, all of the p-values are well over 0.001, so we would
+make the same decision for all implementations, but it is concerning that the 
+round off error between the approaches is so wide
+
+```{r, cache = T, fig.width = 8}
+#to compare efficiency
+results3We <- print_efficiency_results_roy (set3, 1)
+
+plot (results3We)
+```
+- The stats package was faster on average than both of the checknormality 
+package implementations
+
+### Conclusions
+- The accuracy of the checknormality implementations increased as sample size 
+decreased, but the effeciency decreased
+- This package is still a work in progress, and I would have liked to have 
+implemented functions more accurate to existing functions
+- In the spirit of transparency I tried to record intermediate values during 
+calculations which may have led to round-off error
+- When looking at the stats::shapiro.test() code on Github, I see that it was 
+written in C, and though I do not understand all of the code I noticed that 
+there were many more "checks" to make sure that the function worked as it should
