@@ -49,6 +49,9 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("chrsshn/checknormality")
 ```
+
+
+
 ## Usage
 ### Example 1: Testing a small sample from an exponential distribution using the original, modified, and Royston approaches
 ```{r echo=TRUE, eval = T}
@@ -59,6 +62,8 @@ checknormality::sw_test (set1, "royston")
 stats::shapiro.test (set1) 
 plot(density (set1))
 ```
+
+Note: you can also get the W test statistic using the functions checknormality::R_get_W () and checknormality::C_get_W() 
 
 ### Example 2: Testing a small sample from a normal distribution using the original, modified, and Royston approaches
 ``` {r echo = T, eval = T}

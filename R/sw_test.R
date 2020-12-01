@@ -296,6 +296,7 @@ royston_sw <- function (vec_value, use_c = T) {
 #'  test on the sample.
 #'
 #'
+#'
 #' @useDynLib checknormality, .registration = TRUE
 #' @importFrom Rcpp evalCpp
 #'

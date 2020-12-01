@@ -24,7 +24,9 @@ Imports:
     ggplot2,
     tidyr,
     car,
-    dplyr
+    dplyr,
+    bench,
+    ggbeeswarm
 LinkingTo: 
     Rcpp
 VignetteBuilder: knitr

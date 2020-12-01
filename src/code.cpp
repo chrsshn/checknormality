@@ -4,7 +4,7 @@
 using namespace Rcpp;
 
 
-//' Calculates the Rational Approximation
+//' Calculate the Rational Approximation
 //'
 //' This function was taken from https://www.johndcook.com/blog/cpp_phi_inverse/
 //'
@@ -20,7 +20,7 @@ double RationalApproximation (double t) {
     (((d[2]*t + d[1])*t + d[0])*t + 1.0);
 }
 
-//' Calculates the Normal CDF Inverse
+//' Calculate the Normal CDF Inverse
 //'
 //' This function was taken from https://www.johndcook.com/blog/cpp_phi_inverse/
 //' @param double p
@@ -44,12 +44,12 @@ double NormalCDFInverse(double p) {
   }
 }
 
-//' Sorts a vector in ascending order
+//' Sort a vector in ascending order
 //'
 //' @param NumericVector x
 //' @return x in ascending order
 //'
-NumericVector stl_sort (NumericVector x) {
+NumericVector rcpp_sort (NumericVector x) {
   NumericVector y = clone(x);
   std::sort(y.begin(), y.end());
   return y;
@@ -111,7 +111,7 @@ double C_get_W (NumericVector vec_value) {
 
   double numerator = 0;
   double denominator = 0;
-  NumericVector sorted_vec_value = stl_sort (vec_value);
+  NumericVector sorted_vec_value = rcpp_sort (vec_value);
 
   for (int i = 0; i < n; i++) {
     numerator += dat_coef[i] * sorted_vec_value[i];
